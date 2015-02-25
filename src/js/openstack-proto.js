@@ -223,8 +223,8 @@ var OpenStackListInstance = (function (JSTACK) {
         for (var i=0; i<result.servers.length; i++) {
             instance = result.servers[i];
 
-            displayableAddresses = getDisplayableAddresses(instance.addresses);
-            displayablePowerState = getDisplayablePowerState(instance["OS-EXT-STS:power_state"]);
+            displayableAddresses = instance.addresses ? getDisplayableAddresses(instance.addresses) : '';
+            displayablePowerState = instance['OS-EXT-STS:power_state'] ? getDisplayablePowerState(instance["OS-EXT-STS:power_state"]) : '';
             imageId = '<a style="text-overflow: ellipsis;">' + instance.image.id + '</a>';
             dataTable.row.add([
                 instance.id,

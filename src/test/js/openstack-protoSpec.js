@@ -152,6 +152,29 @@ describe('Test Instance Table', function () {
 		expect(console.log.calls.mostRecent().args[0]).toBe('Error: "Test successful"');
 	});
 
+	it('should display an empty string when given an instance without addresses', function () {
+
+		var addresses = instanceListSingleInstance.servers[0].addresses;
+		instanceListSingleInstance.servers[0].addresses = null;
+
+		callListInstance();
+		callListInstanceSuccessCallback(instanceListSingleInstance);
+
+		expect($('tbody > tr').children()[2].textContent).toEqual('');
+		instanceListSingleInstance.servers[0].addresses = addresses;
+	});
+
+	it('should display an empty string when given an instance without addresses', function () {
+
+		var power_states = instanceListSingleInstance.servers[0].addresses;
+		instanceListSingleInstance.servers[0]["OS-EXT-STS:power_state"] = null;
+
+		callListInstance();
+		callListInstanceSuccessCallback(instanceListSingleInstance);
+
+		expect($('tbody > tr').children()[3].textContent).toEqual('');
+		instanceListSingleInstance.servers[0]["OS-EXT-STS:power_state"] = power_states;
+	});
 
 	/**************************************************************************/
 	/*****************************INTERFACE TESTS******************************/
