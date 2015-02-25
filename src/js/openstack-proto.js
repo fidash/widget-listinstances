@@ -287,6 +287,9 @@ var OpenStackListInstance = (function (JSTACK) {
         // Preferences handler
         MashupPlatform.prefs.registerCallback(handlePreferences);
 
+        // Wiring input
+        MashupPlatform.wiring.registerCallback('instance_update', getInstanceList);
+
     }
 
     return OpenStackListInstance;

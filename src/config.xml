@@ -29,6 +29,7 @@
     <preference name="task" type="boolean" description="Activate to display the task column" label="Task" default="true" />
   </preferences>
   <wiring>
+    <inputendpoint name="instance_update" type="text" label="Instance update" description="Receives an instance update event." friendcode="instance_update"/>
     <outputendpoint name="instance_id" type="text" label="Instance ID" description="Sends instance ID and OpenStack access." friendcode="instance_id"/>
     <outputendpoint name="image_id" type="text" label="Image ID" description="Sends image ID and OpenStack access." friendcode="image_id"/>
   </wiring>
