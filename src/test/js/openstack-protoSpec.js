@@ -30,7 +30,7 @@ describe('Test Instance Table', function () {
 		        "disk_config": false,
 		        "vm_state": false,
 		        "power_state": true,
-		        "task": false
+		        "task": true
 		    }
 		};
 
@@ -155,8 +155,8 @@ describe('Test Instance Table', function () {
 	it('should display an empty string when given an instance without addresses', function () {
 
 		var addresses = instanceListSingleInstance.servers[0].addresses;
-		instanceListSingleInstance.servers[0].addresses = null;
 
+		instanceListSingleInstance.servers[0].addresses = null;
 		callListInstance();
 		callListInstanceSuccessCallback(instanceListSingleInstance);
 
@@ -167,13 +167,39 @@ describe('Test Instance Table', function () {
 	it('should display an empty string when given an instance without addresses', function () {
 
 		var power_state = instanceListSingleInstance.servers[0]["OS-EXT-STS:power_state"];
-		instanceListSingleInstance.servers[0]["OS-EXT-STS:power_state"] = null;
 
+		instanceListSingleInstance.servers[0]["OS-EXT-STS:power_state"] = null;
 		callListInstance();
 		callListInstanceSuccessCallback(instanceListSingleInstance);
 
 		expect($('tbody > tr').children()[3].textContent).toEqual('');
 		instanceListSingleInstance.servers[0]["OS-EXT-STS:power_state"] = power_state;
+	});
+
+	it('should display "None" when given an instance with an empty string as task', function () {
+
+		var task = instanceListSingleInstance.servers[0]["OS-EXT-STS:task_state"];
+		
+		instanceListSingleInstance.servers[0]["OS-EXT-STS:task_state"] = '';
+		callListInstance();
+		callListInstanceSuccessCallback(instanceListSingleInstance);
+
+		expect($('tbody > tr').children()[4].textContent).toEqual('None');
+
+		instanceListSingleInstance.servers[0]["OS-EXT-STS:task_state"] = task;
+	});
+
+	it('should display "None" when given an instance without a task', function () {
+
+		var task = instanceListSingleInstance.servers[0]["OS-EXT-STS:task_state"];
+		
+		instanceListSingleInstance.servers[0]["OS-EXT-STS:task_state"] = null;
+		callListInstance();
+		callListInstanceSuccessCallback(instanceListSingleInstance);
+
+		expect($('tbody > tr').children()[4].textContent).toEqual('None');
+
+		instanceListSingleInstance.servers[0]["OS-EXT-STS:task_state"] = task;
 	});
 
 	/**************************************************************************/

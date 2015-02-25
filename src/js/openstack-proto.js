@@ -213,7 +213,11 @@ var OpenStackListInstance = (function (JSTACK) {
 
     function callbackInstanceList (result) {
         
-        var instance, displayableAddresses, displayablePowerState, imageId;
+        var instance,
+            displayableAddresses,
+            displayablePowerState,
+            displayableTask,
+            imageId;
         var dataSet = [];
 
         // Clear previous elements
@@ -225,7 +229,7 @@ var OpenStackListInstance = (function (JSTACK) {
 
             displayableAddresses = instance.addresses ? getDisplayableAddresses(instance.addresses) : '';
             displayablePowerState = instance['OS-EXT-STS:power_state'] ? getDisplayablePowerState(instance["OS-EXT-STS:power_state"]) : '';
-
+            displayableTask = (instance["OS-EXT-STS:task_state"] && instance["OS-EXT-STS:task_state"] !== '') ? instance["OS-EXT-STS:task_state"] : "None";
 
             imageId = '<a style="text-overflow: ellipsis;">' + instance.image.id + '</a>';
             dataTable.row.add([
@@ -243,7 +247,7 @@ var OpenStackListInstance = (function (JSTACK) {
                 instance["OS-DCF:diskConfig"],
                 instance["OS-EXT-STS:vm_state"],
                 displayablePowerState,
-                instance["OS-EXT-STS:task_state"]
+                displayableTask
             ]).draw();
         }
 
