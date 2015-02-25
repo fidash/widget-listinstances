@@ -166,14 +166,14 @@ describe('Test Instance Table', function () {
 
 	it('should display an empty string when given an instance without addresses', function () {
 
-		var power_states = instanceListSingleInstance.servers[0].addresses;
+		var power_state = instanceListSingleInstance.servers[0]["OS-EXT-STS:power_state"];
 		instanceListSingleInstance.servers[0]["OS-EXT-STS:power_state"] = null;
 
 		callListInstance();
 		callListInstanceSuccessCallback(instanceListSingleInstance);
 
 		expect($('tbody > tr').children()[3].textContent).toEqual('');
-		instanceListSingleInstance.servers[0]["OS-EXT-STS:power_state"] = power_states;
+		instanceListSingleInstance.servers[0]["OS-EXT-STS:power_state"] = power_state;
 	});
 
 	/**************************************************************************/
@@ -202,9 +202,14 @@ describe('Test Instance Table', function () {
 
 	it('should add the given row', function() {
 
+		var states = [
+            "SHUT DOWN",
+            "RUNNING",
+            "SHUTOFF",
+        ];
 		var instance = instanceListSingleInstance.servers[0];
 		var addr = instance.addresses["private"][0].addr + instance.addresses["private"][1].addr;
-		var expectedTextList = [instance.name, instance.status, addr, instance["OS-EXT-STS:power_state"]];
+		var expectedTextList = [instance.name, instance.status, addr, states[instance["OS-EXT-STS:power_state"]]];
 		var cell;
 
 		callListInstance();

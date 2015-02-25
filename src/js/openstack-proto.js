@@ -202,11 +202,11 @@ var OpenStackListInstance = (function (JSTACK) {
     }
 
     function getDisplayablePowerState (power_state) {
-        var states = {
-            0: "SHUT DOWN",
-            1: "RUNNING",
-            4: "SHUTOFF",
-        };
+        var states = [
+            "SHUT DOWN",
+            "RUNNING",
+            "SHUTOFF",
+        ];
 
         return states[power_state];
     }
@@ -225,6 +225,8 @@ var OpenStackListInstance = (function (JSTACK) {
 
             displayableAddresses = instance.addresses ? getDisplayableAddresses(instance.addresses) : '';
             displayablePowerState = instance['OS-EXT-STS:power_state'] ? getDisplayablePowerState(instance["OS-EXT-STS:power_state"]) : '';
+
+
             imageId = '<a style="text-overflow: ellipsis;">' + instance.image.id + '</a>';
             dataTable.row.add([
                 instance.id,
@@ -240,7 +242,7 @@ var OpenStackListInstance = (function (JSTACK) {
                 instance.flavor,
                 instance["OS-DCF:diskConfig"],
                 instance["OS-EXT-STS:vm_state"],
-                instance["OS-EXT-STS:power_state"],
+                displayablePowerState,
                 instance["OS-EXT-STS:task_state"]
             ]).draw();
         }
