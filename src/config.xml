@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<widget xmlns="http://wirecloud.conwet.fi.upm.es/ns/macdescription/1" vendor="CoNWeT" name="openstack-listinstances-widget" version="0.0.1">
+  <details>
+    <title>OpenStack List Instances Widget</title>
+    <email>bgrana@conwet.com</email>
+    <image>images/catalogue.png</image>
+    <smartphoneimage>images/catalogueSmartphone.png</smartphoneimage>
+    <description>Widget that shows a table with openStack instances data</description>
+    <authors>bgrana</authors>
+  </details>
+  <requirements>
+    <feature name="StyledElements" />
+  </requirements>
+  <preferences>
+    <preference name="id" type="boolean" description="Activate to display the id column" label="ID" default="false" />
+    <preference name="name" type="boolean" description="Activate to display the name column" label="Name" default="true" />
+    <preference name="status" type="boolean" description="Activate to display the status column" label="Status" default="true" />
+    <preference name="tenant" type="boolean" description="Activate to display the tenant column" label="Tenant" default="false" />
+    <preference name="addresses" type="boolean" description="Activate to display the addresses column" label="Addresses" default="true" />
+    <preference name="created" type="boolean" description="Activate to display the created column" label="Created" default="false" />
+    <preference name="updated" type="boolean" description="Activate to display the updated column" label="Updated" default="false" />
+    <preference name="owner" type="boolean" description="Activate to display the owner column" label="Owner" default="false" />
+    <preference name="image" type="boolean" description="Activate to display the image column" label="Image" default="false" />
+    <preference name="key_pair" type="boolean" description="Activate to display the key pair column" label="Key Pair" default="false" />
+    <preference name="flavor" type="boolean" description="Activate to display the flavor column" label="Flavor" default="false" />
+    <preference name="disk_config" type="boolean" description="Activate to display the disk config column" label="Disk Config" default="false" />
+    <preference name="vm_state" type="boolean" description="Activate to display the vm state column" label="VM State" default="false" />
+    <preference name="power_state" type="boolean" description="Activate to display the power state column" label="Power State" default="true" />
+    <preference name="task" type="boolean" description="Activate to display the task column" label="Task" default="true" />
+  </preferences>
+  <wiring>
+    <outputendpoint name="instance_id" type="text" label="Instance ID" description="Sends instance ID and OpenStack access." friendcode="instance_id"/>
+    <outputendpoint name="image_id" type="text" label="Image ID" description="Sends image ID and OpenStack access." friendcode="image_id"/>
+  </wiring>
+  <contents src="index.html" useplatformstyle="true"/>
+  <rendering height="44" width="11"/>
+</widget>
