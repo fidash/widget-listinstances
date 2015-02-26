@@ -191,7 +191,13 @@ var OpenStackListInstance = (function (JSTACK) {
     function getDisplayableAddresses(addresses) {
 
         var privateAddresses = addresses["private"];
-        var displayableAddresses = privateAddresses[0].addr;
+        var displayableAddresses;
+        
+        if (!privateAddresses) {
+            return '';
+        }
+
+        displayableAddresses = privateAddresses[0].addr;
 
         for (var i=1; i<privateAddresses.length; i++) {
             displayableAddresses += '<br/>' + privateAddresses[i].addr;
@@ -294,7 +300,11 @@ var OpenStackListInstance = (function (JSTACK) {
         MashupPlatform.prefs.registerCallback(handlePreferences);
 
         // Wiring input
-        MashupPlatform.wiring.registerCallback('instance_update', getInstanceList);
+        MashupPlatform.wiring.registerCallback('instance_update', function (wiringData) {
+            setTimeout(function () {
+                getInstanceList();
+            }, 2000);
+        });
 
     }
 
