@@ -224,6 +224,7 @@ var OpenStackListInstance = (function (JSTACK) {
             displayablePowerState,
             displayableTask,
             imageId;
+
         var dataSet = [];
 
         // Clear previous elements
@@ -278,6 +279,10 @@ var OpenStackListInstance = (function (JSTACK) {
 
         dataTable.columns.adjust().draw();
 
+        setTimeout(function () {
+            getInstanceList();
+        }, 2000);
+
     }
 
     function onError (error) {
@@ -298,13 +303,6 @@ var OpenStackListInstance = (function (JSTACK) {
 
         // Preferences handler
         MashupPlatform.prefs.registerCallback(handlePreferences);
-
-        // Wiring input
-        MashupPlatform.wiring.registerCallback('instance_update', function (wiringData) {
-            setTimeout(function () {
-                getInstanceList();
-            }, 2000);
-        });
 
     }
 

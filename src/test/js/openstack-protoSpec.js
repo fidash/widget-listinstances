@@ -202,6 +202,22 @@ describe('Test Instance Table', function () {
 		instanceListSingleInstance.servers[0]["OS-EXT-STS:task_state"] = task;
 	});
 
+	it('should call getserverlist 2 seconds after receiving the last update', function () {
+
+		var expectedCount, callback;
+		var setTimeoutSpy = spyOn(window, 'setTimeout');
+
+		callListInstance();
+		expectedCount = JSTACK.Nova.getserverlist.calls.count() + 1;
+		callListInstanceSuccessCallback(instanceListSingleInstance);
+		callback = setTimeout.calls.mostRecent().args[0];
+		callback();
+
+		expect(JSTACK.Nova.getserverlist.calls.count()).toEqual(expectedCount);
+		
+	});
+
+
 	/**************************************************************************/
 	/*****************************INTERFACE TESTS******************************/
 	/**************************************************************************/
