@@ -215,6 +215,7 @@ describe('Test Instance Table', function () {
 		callback();
 
 		expect(JSTACK.Nova.getserverlist.calls.count()).toEqual(expectedCount);
+		expect(setTimeoutSpy).toHaveBeenCalledWith(jasmine.any(Function), 2000);
 		
 	});
 
