@@ -6,5 +6,4 @@ $(document).ready(function() {
 	var openStackListInstance = new OpenStackListInstance();
 
     openStackListInstance.init();
-    openStackListInstance.listInstance();
 });

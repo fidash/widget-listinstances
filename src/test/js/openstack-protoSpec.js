@@ -13,7 +13,10 @@ describe('Test Instance Table', function () {
 
 	beforeEach(function() {
 
-		// Set/Reset prefs values
+		JSTACK.Keystone = jasmine.createSpyObj("Keystone", ["init", "authenticate", "gettenants", "params"]);
+		JSTACK.Nova = jasmine.createSpyObj("Nova", ["getserverlist"]);
+
+		// Reset prefs values
 		prefsValues = {
 	    	"MashupPlatform.prefs.get": {
 		        "id": false,
@@ -75,8 +78,6 @@ describe('Test Instance Table', function () {
 			responseText: JSON.stringify(respServices)
 		};
 		handleServiceTokenCallback(respServices);
-
-		openStack.listInstance();
 
 	}
 
