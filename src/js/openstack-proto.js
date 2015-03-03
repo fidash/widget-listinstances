@@ -268,6 +268,9 @@ var OpenStackListInstance = (function (JSTACK) {
             MashupPlatform.wiring.pushEvent('image_id', JSON.stringify(data));
         });
 
+        // Remove previous row click events
+        $('#instances_table tbody').off('click', '**');
+
         // Row events
         $('#instances_table tbody').on('click', 'tr', function () {
             var data = dataTable.row(this).data();
@@ -281,7 +284,7 @@ var OpenStackListInstance = (function (JSTACK) {
 
         setTimeout(function () {
             getInstanceList();
-        }, 2000);
+        }, 4000);
 
     }
 
