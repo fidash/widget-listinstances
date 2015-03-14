@@ -106,11 +106,24 @@ var OpenStackListInstance = (function (JSTACK) {
             'binfo': false,
             'dom': 't<"navbar navbar-default navbar-fixed-bottom"p>',
             'pagingType': 'full_numbers',
-            'info': false
+            'info': false,
+            "language": {
+                "paginate": {
+                    "first": '<i class="fa fa-fast-backward"></i>',
+                    "last": '<i class="fa fa-fast-forward"></i>',
+                    "next": '<i class="fa fa-forward"></i>',
+                    "previous": '<i class="fa fa-backward"></i>'
+                }
+            }
         });
 
+        // Padding bottom for fixed to bottom bar
         $('#instances_table_wrapper').attr('style', 'padding-bottom: 49px;');
 
+        // Pagination style
+        $('#images_table_paginate').addClass('pagination pull-right');
+
+        // Fixed header
         fixedHeader = new $.fn.dataTable.FixedHeader(dataTable);
 
         $(window).resize(function () {
