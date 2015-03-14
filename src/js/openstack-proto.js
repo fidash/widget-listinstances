@@ -3,6 +3,7 @@ var OpenStackListInstance = (function (JSTACK) {
 
     var url = 'https://cloud.lab.fiware.org/keystone/v2.0/';
     var dataTable, hiddenColumns, fixedHeader, selectedRowId;
+    var focusState = false;
 
     function authenticate () {
         
@@ -73,9 +74,9 @@ var OpenStackListInstance = (function (JSTACK) {
 
     function createTable () {
 
-        var refresh, createButton, modalCreateButton;
+        var refresh, createButton, modalCreateButton, search, searchButton,
+            searchInput;
 
-        // TODO let the user choose the content of columns as a preference
         var columns = [
             {'title': 'ID'},
             {'title': 'Name'},
@@ -118,12 +119,51 @@ var OpenStackListInstance = (function (JSTACK) {
         });
 
 
+        // Set Search field
+        search = $('<div>')
+            .addClass('input-group search-container')
+            .insertBefore($('#instances_table_paginate'));
+
+        searchButton = $('<button>')
+            .addClass('btn btn-default')
+            .html('<i class="fa fa-search"></i>');
+
+        $('<span>')
+            .addClass('input-group-btn')
+            .append(searchButton)
+            .appendTo(search);
+
+        searchInput = $('<input>')
+            .attr('type', 'text')
+            .attr('placeholder', 'Search for...')
+            .addClass('search form-control')
+            .appendTo(search);
+
+        // Search click animation
+        searchButton.on('click', function () {
+            focusState = !focusState;
+            
+            searchInput.toggleClass('slideRight');
+            searchButton.parent()
+                .css('z-index', 20);
+
+            if (focusState) {
+                searchInput.focus();
+            }
+        });
+
+        // Search
+        searchInput.on( 'keyup', function () {
+            dataTable.search(this.value).draw();
+        });
+
         // Set refresh button
-        refresh = $('<button>');
-        refresh.text('Refresh');
-        refresh.addClass('btn btn-default action-button pull-left');
-        refresh.click(getInstanceList);
-        refresh.insertBefore($('#instances_table_paginate'));
+        refresh = $('<button>')
+            .html('<i class="fa fa-refresh"></i>')
+            .addClass('btn btn-default action-button pull-left')
+            .css('margin-left', '54px')
+            .click(getInstanceList)
+            .insertBefore($('#instances_table_paginate'));
 
     }
 
