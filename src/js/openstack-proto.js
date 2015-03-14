@@ -2,7 +2,7 @@ var OpenStackListInstance = (function (JSTACK) {
     "use strict";
 
     var url = 'https://cloud.lab.fiware.org/keystone/v2.0/';
-    var dataTable, hiddenColumns, fixedHeader;
+    var dataTable, hiddenColumns, fixedHeader, selectedRowId;
 
     function authenticate () {
         
@@ -235,7 +235,8 @@ var OpenStackListInstance = (function (JSTACK) {
             displayableTask,
             imageId,
             scroll,
-            page;
+            page,
+            row;
 
         var dataSet = [];
 
@@ -255,7 +256,7 @@ var OpenStackListInstance = (function (JSTACK) {
             displayableTask = (instance["OS-EXT-STS:task_state"] && instance["OS-EXT-STS:task_state"] !== '') ? instance["OS-EXT-STS:task_state"] : "None";
 
             imageId = '<a style="text-overflow: ellipsis;">' + instance.image.id + '</a>';
-            dataTable.row.add([
+            row = dataTable.row.add([
                 instance.id,
                 instance.name,
                 instance.tenant_id,
@@ -271,7 +272,14 @@ var OpenStackListInstance = (function (JSTACK) {
                 instance["OS-EXT-STS:vm_state"],
                 displayablePowerState,
                 displayableTask
-            ]).draw();
+            ])
+            .draw()
+            .nodes()
+            .to$();
+
+            if (instance.id === selectedRowId) {
+                row.addClass('selected');
+            }
         }
 
         // Image ID events
@@ -291,7 +299,12 @@ var OpenStackListInstance = (function (JSTACK) {
         $('#instances_table tbody').on('click', 'tr', function () {
             var data = dataTable.row(this).data();
             var id = data[0];
-            $('#instances_table tbody tr').removeClass('selected');
+            selectedRowId = id;
+            
+            dataTable.row('.selected')
+                .nodes()
+                .to$()
+                .removeClass('selected');
             $(this).addClass('selected');
             rowClickCallback(id);
         });
