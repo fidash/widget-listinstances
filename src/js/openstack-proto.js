@@ -2,7 +2,7 @@ var OpenStackListInstance = (function (JSTACK) {
     "use strict";
 
     var url = 'https://cloud.lab.fiware.org/keystone/v2.0/';
-    var dataTable, hiddenColumns;
+    var dataTable, hiddenColumns, fixedHeader;
 
     function authenticate () {
         
@@ -103,10 +103,20 @@ var OpenStackListInstance = (function (JSTACK) {
                 }
             ],
             'binfo': false,
-            //responsive: true,
+            'dom': 't<"navbar navbar-default navbar-fixed-bottom"p>',
             'pagingType': 'full_numbers',
             'info': false
         });
+
+        $('#instances_table_wrapper').attr('style', 'padding-bottom: 49px;');
+
+        fixedHeader = new $.fn.dataTable.FixedHeader(dataTable);
+
+        $(window).resize(function () {
+            fixedHeader._fnUpdateClones(true); // force redraw
+            fixedHeader._fnUpdatePositions();
+        });
+
 
         // Set refresh button
         refresh = $('<button>');
@@ -223,9 +233,15 @@ var OpenStackListInstance = (function (JSTACK) {
             displayableAddresses,
             displayablePowerState,
             displayableTask,
-            imageId;
+            imageId,
+            scroll,
+            page;
 
         var dataSet = [];
+
+         // Save previous scroll and page
+        scroll = $(window).scrollTop();
+        page = dataTable.page();
 
         // Clear previous elements
         dataTable.clear();
@@ -282,9 +298,17 @@ var OpenStackListInstance = (function (JSTACK) {
 
         dataTable.columns.adjust().draw();
 
+        // Restore previous scroll and page
+        $(window).scrollTop(scroll);
+        dataTable.page(page).draw(false);
+
         setTimeout(function () {
             getInstanceList();
         }, 4000);
+
+
+        fixedHeader._fnUpdateClones(true); // force redraw
+        fixedHeader._fnUpdatePositions();
 
     }
 

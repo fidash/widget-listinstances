@@ -55,6 +55,7 @@ describe('Test Instance Table', function () {
 
 	afterEach(function () {
 		$('#instances_table').empty();
+		$('.FixedHeader_Cloned.fixedHeader.FixedHeader_Header > table').empty();
 	});
 
 
@@ -138,19 +139,19 @@ describe('Test Instance Table', function () {
 
 	it('should call error callback for getTenants correctly',function () {
 
-		console.log = jasmine.createSpy("log").and.callThrough();	// REFACTOR
+		var consoleSpy = spyOn(console, "log");
 
 		callgetTenantsWithError();
-		expect(console.log.calls.mostRecent().args[0]).toBe('Error: "Test successful"');
+		expect(consoleSpy.calls.mostRecent().args[0]).toBe('Error: "Test successful"');
 	});
 
 	it('should call error callback for authenticate correctly', function () {
 		
-		console.log = jasmine.createSpy("log").and.callThrough();	// REFACTOR
+		var consoleSpy = spyOn(console, "log");
 
 		callgetTenantsWithError();
 		callAuthenticateWithError();
-		expect(console.log.calls.mostRecent().args[0]).toBe('Error: "Test successful"');
+		expect(consoleSpy.calls.mostRecent().args[0]).toBe('Error: "Test successful"');
 	});
 
 	it('should display an empty string when given an instance without addresses', function () {
@@ -281,7 +282,7 @@ describe('Test Instance Table', function () {
 
 		for (var i=0; i<expectedColumns.length; i++) {
 
-			column = $('thead > tr > th');
+			column = $('.fixedHeader th');
 			expect(column).toContainText(expectedColumns[i]);
 		}
 
@@ -316,7 +317,7 @@ describe('Test Instance Table', function () {
 
 		for (var i=0; i<expectedColumns.length; i++) {
 
-			column = $('thead > tr > th');
+			column = $('.fixedHeader th');
 			expect(column).toContainText(expectedColumns[i]);
 		}
 	});

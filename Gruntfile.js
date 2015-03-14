@@ -40,7 +40,7 @@ module.exports = function(grunt) {
           {expand: true, src: ['bootstrap.min.css', 'bootstrap.css.map', 'bootstrap-theme.min.css', 'bootstrap-theme.css.map'], dest: 'build/wgt/lib/css', cwd: 'node_modules/bootstrap/dist/css'},
           {expand: true, src: ['bootstrap.min.js'], dest: 'build/wgt/lib/js', cwd: 'node_modules/bootstrap/dist/js'},
           {expand: true, src: ['*'], dest: 'build/wgt/lib/fonts', cwd: 'node_modules/bootstrap/dist/fonts'},
-          {expand: true, src: ['css/jquery.dataTables.min.css', 'js/jquery.dataTables.min.js'], dest: 'build/wgt/lib', cwd: 'node_modules/datatables/media'}
+          {expand: true, src: ['css/jquery.dataTables.min.css', 'js/jquery.dataTables.min.js', 'images/*'], dest: 'build/wgt/lib', cwd: 'node_modules/datatables/media'}
         ]
       }
     },
@@ -54,6 +54,7 @@ module.exports = function(grunt) {
           vendor: ['src/test/vendor/*.js',
             'node_modules/jquery/dist/jquery.js',
             'node_modules/datatables/media/js/jquery.dataTables.js',
+            'src/lib/js/dataTables.fixedHeader.js',
             'node_modules/jasmine-jquery/lib/jasmine-jquery.js']
         }
       },
