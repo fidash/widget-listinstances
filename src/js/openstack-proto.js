@@ -121,7 +121,7 @@ var OpenStackListInstance = (function (JSTACK) {
         $('#instances_table_wrapper').attr('style', 'padding-bottom: 49px;');
 
         // Pagination style
-        $('#images_table_paginate').addClass('pagination pull-right');
+        $('#instances_table_paginate').addClass('pagination pull-right');
 
         // Fixed header
         fixedHeader = new $.fn.dataTable.FixedHeader(dataTable);
@@ -144,37 +144,37 @@ var OpenStackListInstance = (function (JSTACK) {
         $('<span>')
             .addClass('input-group-btn')
             .append(searchButton)
-            .appendTo(search);
+            .appendTo(search)
+            .css('z-index', 20);
 
         searchInput = $('<input>')
             .attr('type', 'text')
             .attr('placeholder', 'Search for...')
-            .addClass('search form-control')
+            .addClass('search form-control disabled')
             .appendTo(search);
 
         // Search click animation
-        searchButton.on('click', function () {
+        searchButton.on('click', function (e) {
             focusState = !focusState;
             
             searchInput.toggleClass('slideRight');
-            searchButton.parent()
-                .css('z-index', 20);
 
             if (focusState) {
                 searchInput.focus();
             }
+
         });
 
-        // Search
+        // Search input
         searchInput.on( 'keyup', function () {
             dataTable.search(this.value).draw();
         });
+
 
         // Set refresh button
         refresh = $('<button>')
             .html('<i class="fa fa-refresh"></i>')
             .addClass('btn btn-default action-button pull-left')
-            .css('margin-left', '54px')
             .click(getInstanceList)
             .insertBefore($('#instances_table_paginate'));
 
