@@ -118,7 +118,7 @@ var OpenStackListInstance = (function (JSTACK) {
         });
 
         // Padding bottom for fixed to bottom bar
-        $('#instances_table_wrapper').attr('style', 'padding-bottom: 49px;');
+        $('#instances_table_wrapper').attr('style', 'padding-bottom: 40px;');
 
         // Pagination style
         $('#instances_table_paginate').addClass('pagination pull-right');
@@ -150,7 +150,7 @@ var OpenStackListInstance = (function (JSTACK) {
         searchInput = $('<input>')
             .attr('type', 'text')
             .attr('placeholder', 'Search for...')
-            .addClass('search form-control disabled')
+            .addClass('search form-control')
             .appendTo(search);
 
         // Search click animation
@@ -293,7 +293,7 @@ var OpenStackListInstance = (function (JSTACK) {
 
         var dataSet = [];
 
-         // Save previous scroll and page
+        // Save previous scroll and page
         scroll = $(window).scrollTop();
         page = dataTable.page();
 
