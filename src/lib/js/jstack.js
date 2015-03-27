@@ -875,8 +875,8 @@ JSTACK.Nova = (function (JS, undefined) {
             var service = JS.Keystone.getservice(params.service);
             var privateUrl = service.endpoints[0][params.endpointType];
             //TODO Let the user choose the URL so it is not hardcoded 
-            //params.url = privateUrl.replace(/192.168.[0-9]+.[0-9]+/, "https://cloud.lab.fiware.org/Spain/image/v1");
-            params.url = "https://cloud.lab.fiware.org/Spain/image/v1";
+            //params.url = privateUrl.replace(/192.168.[0-9]+.[0-9]+/, "https://cloud.lab.fiware.org/Spain2/image/v1");
+            params.url = "https://cloud.lab.fiware.org/Spain2/image/v1";
             return true;
         }
         return false;
@@ -935,7 +935,7 @@ JSTACK.Nova = (function (JS, undefined) {
         if (!check()) {
             return;
         }
-        url = 'https://cloud.lab.fiware.org/Spain/compute/v2/' + JSTACK.Keystone.params.access.token.tenant.id + '/servers';
+        url = 'https://cloud.lab.fiware.org/Spain2/compute/v2/' + JSTACK.Keystone.params.access.token.tenant.id + '/servers';
         if (detailed !== undefined && detailed) {
             url += '/detail';
         }
@@ -1141,7 +1141,7 @@ JSTACK.Nova = (function (JS, undefined) {
             }
         };
 
-        JS.Comm.post('https://cloud.lab.fiware.org/Spain/compute/v2/' + JSTACK.Keystone.params.access.token.tenant.id + '/servers', data, JS.Keystone.params.token, onOK, onError);
+        JS.Comm.post('https://cloud.lab.fiware.org/Spain2/compute/v2/' + JSTACK.Keystone.params.access.token.tenant.id + '/servers', data, JS.Keystone.params.token, onOK, onError);
 
     };
     // This operation deletes a cloud server instance from the system.
@@ -2497,7 +2497,7 @@ JSTACK.Glance = (function(JS, undefined) {
         if (JS.Keystone !== undefined && JS.Keystone.params.currentstate === JS.Keystone.STATES.AUTHENTICATED) {
             var service = JS.Keystone.getservice("image");
             //params.url = service.endpoints[0][params.endpointType];
-            params.url = 'https://cloud.lab.fiware.org/Spain/image/v1';
+            params.url = 'https://cloud.lab.fiware.org/Spain2/image/v1';
             return true;
         }
         return false;
