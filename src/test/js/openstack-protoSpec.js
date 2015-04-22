@@ -228,6 +228,20 @@ describe('Test Instance Table', function () {
 		
 	});
 
+	it('should display an empty string when addresses attribute has no private object', function () {
+
+		var data;
+		var addr = instanceListSingleInstance.servers[0].addresses.private;
+		instanceListSingleInstance.servers[0].addresses.private = null;
+
+		callListInstance();
+		callListInstanceSuccessCallback(instanceListSingleInstance);
+		data = $('tbody > tr').first().children();
+		instanceListSingleInstance.servers[0].addresses.private = addr;
+
+		expect(data[2].textContent).toBe('');
+	});
+
 
 	/**************************************************************************/
 	/*****************************INTERFACE TESTS******************************/
