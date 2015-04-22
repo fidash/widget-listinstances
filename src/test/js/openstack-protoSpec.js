@@ -41,7 +41,8 @@ describe('Test Instance Table', function () {
 		MashupPlatform.setStrategy(new MyStrategy(), prefsValues);
 
 		// Set/Reset fixtures
-		setFixtures('<table id="instances_table"></table>');
+		jasmine.getFixtures().fixturesPath = 'src/test/fixtures/html';
+		loadFixtures('defaultTemplate.html');
 		jasmine.getJSONFixtures().fixturesPath = 'src/test/fixtures/json';
 		respInstanceList = getJSONFixture('respInstanceList.json');
 		respAuthenticate = getJSONFixture('respAuthenticate.json');
@@ -111,6 +112,13 @@ describe('Test Instance Table', function () {
 		
 		callback(instanceList);
 
+	}
+
+	function callListInstanceErrorCallback (error) {
+
+		var callback = JSTACK.Nova.getserverlist.calls.mostRecent().args[3];
+
+		callback(error);
 	}
 
 
@@ -358,4 +366,97 @@ describe('Test Instance Table', function () {
 		expect(MashupPlatform.wiring.pushEvent.calls.first().args[0]).toEqual('image_id');
 		expect(spyEvent).toHaveBeenTriggered();
 	});
+
+	it('should start loading animation with width lesser than the height', function () {
+		
+		var innerWidth = 100;
+		window.innerWidth = innerWidth;
+		window.innerHeight = innerWidth + 100;
+		callListInstance();
+		callListInstanceSuccessCallback(respInstanceList);
+
+		expect($('.loading i').css('font-size')).toBe(Math.floor(innerWidth/4) + 'px');
+	});
+
+	it('should start loading animation with height lesser than the width', function () {
+		
+		var innerHeight = 100;
+		window.innerWidth = innerHeight + 100;
+		window.innerHeight = innerHeight;
+		callListInstance();
+		callListInstanceSuccessCallback(respInstanceList);
+
+		expect($('.loading i').css('font-size')).toBe(Math.floor(innerHeight/4) + 'px');
+	});
+
+	it('should show an error alert with the appropiate predefined' + 
+       ' message and the received message body in the details', function () {
+
+		var imageId = 'id';
+		var error = {message: "500 Error", body: "Internal Server Error"};
+		
+		callListInstance();
+		callListInstanceErrorCallback(error);
+		
+		expect($('.alert > strong').last().text()).toBe('Error ');
+		expect($('.alert > span').last().text()).toBe('An error has occurred on the server side. ');
+		expect($('.alert > div').last().text()).toBe(error.message + ' ' + error.body + ' ');
+
+	});
+
+	it('should show an error alert with the message' + 
+	   ' received writen on it when ir doesn\'t recognize the error', function () {
+
+	   	var imageId = 'id';
+	   	var error = {message: "404 Error", body: "Image not found"};
+
+		callListInstance();
+		callListInstanceErrorCallback(error);
+		
+		expect($('.alert > strong').last().text()).toBe(error.message + ' ');
+		expect($('.alert > span').last().text()).toBe(error.body + ' ');
+
+	});
+
+	it('should display the error details when a click event is' + 
+	   ' triggered in the details button', function () {
+
+	   	var imageId = 'id';
+	   	var spyEvent = spyOnEvent('.alert a', 'click');
+	   	var error = {message: "500 Error", body: "Internal Server Error"};
+
+		callListInstance();
+		callListInstanceErrorCallback(error);
+		$('.alert a').trigger('click');
+		
+		expect($('.alert > div').last()).not.toHaveCss({display: "none"});
+
+	});
+
+	it('should expand the search input when a click event is triggered in the search button', function () {
+
+		var spyEvent = spyOnEvent('.search-container button', 'click');
+
+		callListInstance();
+		callListInstanceSuccessCallback(respInstanceList);
+		$('.search-container button').trigger('click');
+
+		expect($('.search-container input')).toHaveClass('slideRight');
+	});
+
+	it('should correctly search images when new data is introduced in the input field', function () {
+
+		var spyEvent;
+
+		callListInstance();
+		callListInstanceSuccessCallback(respInstanceList);
+		spyEvent = spyOnEvent('.search-container input', 'keyup');
+		$('.search-container input')
+			.val('RealVirtualInteractionGE-3.3.3')
+			.trigger('keyup');
+
+		expect('keyup').toHaveBeenTriggeredOn('.search-container input');
+		expect($('tbody').children().size()).toBe(1);
+	});
+
 });
