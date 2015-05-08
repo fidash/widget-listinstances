@@ -41,9 +41,9 @@ describe('Test Instance Table', function () {
 		MashupPlatform.setStrategy(new MyStrategy(), prefsValues);
 
 		// Set/Reset fixtures
-		jasmine.getFixtures().fixturesPath = 'src/test/fixtures/html';
+		jasmine.getFixtures().fixturesPath = 'base/src/test/fixtures/html';
 		loadFixtures('defaultTemplate.html');
-		jasmine.getJSONFixtures().fixturesPath = 'src/test/fixtures/json';
+		jasmine.getJSONFixtures().fixturesPath = 'base/src/test/fixtures/json';
 		respInstanceList = getJSONFixture('respInstanceList.json');
 		respAuthenticate = getJSONFixture('respAuthenticate.json');
 		respTenants = getJSONFixture('respTenants.json');
@@ -383,24 +383,27 @@ describe('Test Instance Table', function () {
 
 	it('should start loading animation with width lesser than the height', function () {
 		
-		var innerWidth = 100;
-		window.innerWidth = innerWidth;
-		window.innerHeight = innerWidth + 100;
-		callListInstance();
-		callListInstanceSuccessCallback(respInstanceList);
+		var bodyWidth = 100;
 
-		expect($('.loading i').css('font-size')).toBe(Math.floor(innerWidth/4) + 'px');
+        $('body').width(bodyWidth);
+        $('body').height(bodyWidth + 100);
+        callListInstance();
+        callListInstanceSuccessCallback(respInstanceList);
+
+        expect($('.loading i').css('font-size')).toBe(Math.floor(bodyWidth/4) + 'px');
 	});
 
 	it('should start loading animation with height lesser than the width', function () {
 		
-		var innerHeight = 100;
-		window.innerWidth = innerHeight + 100;
-		window.innerHeight = innerHeight;
-		callListInstance();
-		callListInstanceSuccessCallback(respInstanceList);
+		var bodyHeight = 100;
+        
+        $('body').width(bodyHeight + 100);
+        $('body').height(bodyHeight);
 
-		expect($('.loading i').css('font-size')).toBe(Math.floor(innerHeight/4) + 'px');
+        callListInstance();
+        callListInstanceSuccessCallback(respInstanceList);
+
+        expect($('.loading i').css('font-size')).toBe(Math.floor(bodyHeight/4) + 'px');
 	});
 
 	it('should show an error alert with the appropiate predefined' + 
