@@ -6,7 +6,7 @@
     
       singleRun: true,
 
-      browsers: ['Firefox', 'Chrome', 'PhantomJS'],
+      browsers: ['Firefox', 'Chrome'],
 
       files: [
         // Vendor files
