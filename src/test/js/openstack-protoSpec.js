@@ -48,6 +48,7 @@ describe('Test Instance Table', function () {
 
         // Create new instance
         openStack = new OpenStackListInstance();
+        openStack.init();
     });
 
     afterEach(function () {
@@ -63,7 +64,7 @@ describe('Test Instance Table', function () {
     function callListInstance() {
 
         var createWidgetUI;
-        openStack.init();
+        openStack.authenticate();
 
         createWidgetUI = MashupPlatform.http.makeRequest.calls.mostRecent().args[1].onSuccess;
         respAuthenticate = {
@@ -264,7 +265,8 @@ describe('Test Instance Table', function () {
             'Name',
             'Status',
             'Addresses',
-            'Power State'
+            'Power State',
+            'Region'
         ];
 
         callListInstance();
@@ -286,7 +288,8 @@ describe('Test Instance Table', function () {
             'Created',
             'Updated',
             'Image',
-            'Flavor'
+            'Flavor',
+            'Region'
         ];
 
         // Change preferences
@@ -312,7 +315,7 @@ describe('Test Instance Table', function () {
         }
     });
 
-    it('should push a wiring event when a click event is triggered' +
+    it('should push a wiring event when a click event is triggered ' +
         'in an image id with the columns added before the build', function () {
 
         var spyEvent, imageId, handlePreferences;
@@ -330,7 +333,7 @@ describe('Test Instance Table', function () {
         expect(spyEvent).toHaveBeenTriggered();
     });
 
-    it('should push a wiring event when a click event is triggered' +
+    it('should push a wiring event when a click event is triggered ' +
         'in an image id with the columns added before the build', function () {
 
         var spyEvent, imageId, handlePreferences;
@@ -437,7 +440,7 @@ describe('Test Instance Table', function () {
         callListInstanceSuccessCallback(respInstanceList);
         spyEvent = spyOnEvent('.search-container input', 'keyup');
         $('.search-container input')
-            .val('RealVirtualInteractionGE-3.3.3')
+            .val('synchronization-3.3.3__instance')
             .trigger('keyup');
 
         expect('keyup').toHaveBeenTriggeredOn('.search-container input');
