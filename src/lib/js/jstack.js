@@ -1282,7 +1282,7 @@ JSTACK.Nova = (function (JS, undefined) {
             }
         };
 
-        JS.Comm.post("https://cloud.lab.fiware.org/Spain2/compute/v2/" + JS.Keystone.params.access.project.id + urlPost, data, JS.Keystone.params.token, onOK, onError);
+        JS.Comm.post("https://cloud.lab.fiware.org/" + region + "/compute/v2/" + JS.Keystone.params.access.project.id + urlPost, data, JS.Keystone.params.token, onOK, onError);
 
     };
     // This operation deletes a cloud server instance from the system.

@@ -1,4 +1,4 @@
-/* global Utils,UI */
+/* global Utils,UI,Region */
 
 var OpenStackListInstance = (function (JSTACK) {
     "use strict";
@@ -72,6 +72,54 @@ var OpenStackListInstance = (function (JSTACK) {
         authenticate();
     }
 
+    function createJoinRegions (regionsLimit, autoRefresh) {
+
+        var currentInstanceList = [];
+        var errorList = [];
+
+        function deductRegionLimit () {
+
+            regionsLimit -= 1;
+
+            if (regionsLimit === 0) {
+
+                UI.drawInstances(getInstanceList, autoRefresh, currentInstanceList);
+                drawErrors();
+            }
+        }
+
+        function drawErrors () {
+            if (errorList.length === 0) return;
+
+            errorList.forEach(function (error) {
+                onError(error);
+            });
+        }
+
+        function joinRegionsSuccess (region, instanceList) {
+
+            instanceList.servers.forEach(function (instance) {
+                instance.region = region;
+                currentInstanceList.push(instance);
+            });
+
+            deductRegionLimit();
+        }
+
+        function joinRegionsErrors (region, error) {
+
+            error.region = region;
+            errorList.push(error);
+
+            deductRegionLimit();
+        }
+
+        return {
+            success: joinRegionsSuccess,
+            error: joinRegionsErrors
+        };
+    }
+
 
     /******************************************************************/
     /*                 P U B L I C   F U N C T I O N S                */
@@ -124,7 +172,12 @@ var OpenStackListInstance = (function (JSTACK) {
 
     function getInstanceList (autoRefresh) {
 
-        JSTACK.Nova.getserverlist(true, null, UI.drawInstances.bind(null, getInstanceList, autoRefresh), onError, "Prague");
+        var regions = Region.getCurrentRegions();
+        var joinRegions = createJoinRegions(regions.length, autoRefresh);
+
+        regions.forEach(function (region) {
+            JSTACK.Nova.getserverlist(true, null, joinRegions.success.bind(null, region), joinRegions.error.bind(null, region), region);
+        });
 
     }
 

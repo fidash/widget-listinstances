@@ -36,6 +36,7 @@
 
         // Source code
         'src/js/Utils.js',
+        'src/js/Region.js',
         'src/js/UI.js',
         'src/js/ListInstances.js',
 

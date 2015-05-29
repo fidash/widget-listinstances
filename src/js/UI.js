@@ -105,7 +105,7 @@ var UI = (function (JSTACK) {
         // Clear previous elements
         dataTable.api().clear();
 
-        instanceList.servers.forEach(function (instance) {
+        instanceList.forEach(function (instance) {
 
             displayableAddresses = instance.addresses ? Utils.getDisplayableAddresses(instance.addresses) : '';
             displayablePowerState = instance['OS-EXT-STS:power_state'] ? Utils.getDisplayablePowerState(instance["OS-EXT-STS:power_state"]) : '';
@@ -128,7 +128,7 @@ var UI = (function (JSTACK) {
                 instance["OS-EXT-STS:vm_state"],
                 displayablePowerState,
                 displayableTask,
-                "Prague"
+                instance.region
             ])
             .draw()
             .nodes()
@@ -256,6 +256,8 @@ var UI = (function (JSTACK) {
         buildTableBody(instanceList);
         setImageIdEvents();
         setSelectInstanceEvents();
+
+        dataTable.api().columns.adjust().draw();
 
         // Restore previous scroll and page
         $(window).scrollTop(scroll);
