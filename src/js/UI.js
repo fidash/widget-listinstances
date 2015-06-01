@@ -98,6 +98,51 @@ var UI = (function (JSTACK) {
             .insertBefore(nextElement);
     }
 
+    function createRegionsButton (nextElement) {
+        $('<button>')
+            .html('<i class="fa fa-globe"></i>')
+            .addClass('btn btn-default action-button pull-left')
+            .click(toggleRegionSelector)
+            .insertBefore(nextElement);
+    }
+
+    function createRegionSelector () {
+        var regions = Region.getAvailableRegions();
+        var regionSelector = $('<div>')
+                .attr('id', 'region-selector')
+                .addClass('region-selector')
+                .css('max-height', window.innerHeight - 50)
+                .appendTo($('body'));
+
+
+        $(window).resize(function () {
+            regionSelector.css('max-height', window.innerHeight - 50);
+        });
+
+        regions.forEach(function(region) {
+            $('<div>')
+                .html('<input type="checkbox" name="region" value="' + region + '" /> ' + region)
+                .addClass('region-container')
+                .click(function (e) {
+                    var input = $('input', this);
+                    input.toggleClass('selected');
+                    if (input.prop('checked')) {
+                        input.prop('checked', false);
+                        Region.setCurrentRegions(regionSelector);
+                    }
+                    else {
+                        input.prop('checked', true);
+                        Region.setCurrentRegions(regionSelector);
+                    }
+                })
+                .appendTo(regionSelector);
+        });
+    }
+
+    function toggleRegionSelector () {
+        $('#region-selector').toggleClass('slideRight');
+    }
+
     function buildTableBody (instanceList) {
 
         var row, instance, displayableAddresses, displayableTask, displayablePowerState, imageId;
@@ -196,6 +241,8 @@ var UI = (function (JSTACK) {
         // Pagination style
         $('#instances_table_paginate').addClass('pagination pull-right');
 
+        createRegionSelector();
+        createRegionsButton($('#instances_table_paginate'));
         createSearchField($('#instances_table_paginate'));
         createRefreshButton($('#instances_table_paginate'), refreshCallback);
 
