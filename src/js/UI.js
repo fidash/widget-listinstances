@@ -10,11 +10,12 @@ var UI = (function (JSTACK) {
     /*                P R I V A T E   F U N C T I O N S               */
     /******************************************************************/
 
-    function selectInstance (id) {
+    function selectInstance (id, region) {
         var data = {
             'id': id,
             'access': JSTACK.Keystone.params.access,
-            'token': JSTACK.Keystone.params.token
+            'token': JSTACK.Keystone.params.token,
+            'region': region
         };
         MashupPlatform.wiring.pushEvent('instance_id', JSON.stringify(data));
     }
@@ -205,6 +206,7 @@ var UI = (function (JSTACK) {
         $('#instances_table tbody').on('click', 'tr', function () {
             var data = dataTable.api().row(this).data();
             var id = data[0];
+            var region = data[data.length - 1];
             UI.selectedRowId = id;
             
             dataTable.api().row('.selected')
@@ -212,7 +214,7 @@ var UI = (function (JSTACK) {
                 .to$()
                 .removeClass('selected');
             $(this).addClass('selected');
-            selectInstance(id);
+            selectInstance(id, region);
         });
 
     }
