@@ -82,6 +82,9 @@ var UI = (function (JSTACK) {
             if (focusState) {
                 searchInput.focus();
             }
+            else {
+                searchInput.blur();
+            }
 
         });
 
@@ -339,10 +342,10 @@ var UI = (function (JSTACK) {
 
     }
 
-    function stopLoadingAnimation () {
+    function stopLoadingAnimation (element) {
 
         // Hide
-        $('.loading').addClass('hide');
+        element.addClass('hide');
     }
 
     return {
