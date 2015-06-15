@@ -251,6 +251,8 @@ var UI = (function (JSTACK) {
         createSearchField($('#instances_table_paginate'));
         createRefreshButton($('#instances_table_paginate'), refreshCallback);
 
+        initFixedHeader();
+
     }
 
     function updateHiddenColumns () {
@@ -309,8 +311,6 @@ var UI = (function (JSTACK) {
         setImageIdEvents();
         setSelectInstanceEvents();
 
-        dataTable.api().columns.adjust().draw();
-
         // Restore previous scroll and page
         $(window).scrollTop(scroll);
         dataTable.api().page(page).draw(false);
@@ -320,8 +320,6 @@ var UI = (function (JSTACK) {
                 getInstanceList(true);
             }, 4000);
         }
-
-        initFixedHeader();
 
     }
 
