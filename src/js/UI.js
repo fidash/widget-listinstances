@@ -105,7 +105,7 @@ var UI = (function (JSTACK) {
     function createRegionsButton (nextElement) {
         $('<button>')
             .html('<i class="fa fa-globe"></i>')
-            .addClass('btn btn-default action-button pull-left')
+            .addClass('btn btn-primary action-button pull-left')
             .click(toggleRegionSelector)
             .insertBefore(nextElement);
     }
