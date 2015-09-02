@@ -1,4 +1,4 @@
-#OpenStack List Instance Widget
+#List Instance Widget
 
 This project is part of [FIWARE](https://www.fiware.org/). This widget is part of FI-Dash component included in FIWARE.
 
