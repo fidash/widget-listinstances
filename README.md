@@ -9,30 +9,30 @@ The widget displays a list of instances available to the user in FIWARE's Cloud.
 
 The List Instances widget has the following wiring endpoints:
 
-|Way|Name|Type|Description|Label|Friendcode|
-|:--:|:--:|:--:|:--:|:--:|:--:|
-|output|image_id|text|Sends image ID and OpenStack access.|Image ID|image_id|
-|output|instance_id|text|Sends instance ID and OpenStack access.|Instance ID|instance_id|
+|Label|Name|Friendcode|Type|Description|
+|:--:|:--:|:--:|:--:|:--:|
+|Image ID|image_id|image_id|text|Sends image ID and OpenStack access.|
+|Instance ID|instance_id|instance_id|text|Sends instance ID and OpenStack access.|
 
 
 ## User preferences
 
 List Instances has the following preferences:
 
-|Name|Type|Description|Label|Default|
+|Label|Name|Type|Default|Description|
 |:--:|:--:|:--:|:--:|:--:|
-|task|boolean|Activate to display the task column|Task|true|
-|power_state|boolean|Activate to display the power state column|Power State|true|
-|vm_state|boolean|Activate to display the vm state column|VM State|false|
-|disk_config|boolean|Activate to display the disk config column|Disk Config|false|
-|flavor|boolean|Activate to display the flavor column|Flavor|false|
-|key_pair|boolean|Activate to display the key pair column|Key Pair|false|
-|image|boolean|Activate to display the image column|Image|false|
-|owner|boolean|Activate to display the owner column|Owner|false|
-|updated|boolean|Activate to display the updated column|Updated|false|
-|created|boolean|Activate to display the created column|Created|false|
-|addresses|boolean|Activate to display the addresses column|Addresses|true|
-|tenant|boolean|Activate to display the tenant column|Tenant|false|
-|status|boolean|Activate to display the status column|Status|true|
-|name|boolean|Activate to display the name column|Name|true|
-|id|boolean|Activate to display the id column|ID|false|
+|Task|task|boolean|true|Activate to display the task column|
+|Power State|power_state|boolean|true|Activate to display the power state column|
+|VM State|vm_state|boolean|false|Activate to display the vm state column|
+|Disk Config|disk_config|boolean|false|Activate to display the disk config column|
+|Flavor|flavor|boolean|false|Activate to display the flavor column|
+|Key Pair|key_pair|boolean|false|Activate to display the key pair column|
+|Image|image|boolean|false|Activate to display the image column|
+|Owner|owner|boolean|false|Activate to display the owner column|
+|Updated|updated|boolean|false|Activate to display the updated column|
+|Created|created|boolean|false|Activate to display the created column|
+|Addresses|addresses|boolean|true|Activate to display the addresses column|
+|Tenant|tenant|boolean|false|Activate to display the tenant column|
+|Status|status|boolean|true|Activate to display the status column|
+|Name|name|boolean|true|Activate to display the name column|
+|ID|id|boolean|false|Activate to display the id column|
