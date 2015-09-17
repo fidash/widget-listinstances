@@ -224,11 +224,12 @@ var UI = (function (JSTACK) {
 
     function initFixedHeader () {
         UI.fixedHeader = new $.fn.dataTable.FixedHeader(dataTable);
+        $(window).resize(redrawFixedHeaders);
+    }
 
-        $(window).resize(function () {
-            UI.fixedHeader._fnUpdateClones(true); // force redraw
-            UI.fixedHeader._fnUpdatePositions();
-        });
+    function redrawFixedHeaders () {
+        UI.fixedHeader._fnUpdateClones(true); // force redraw
+        UI.fixedHeader._fnUpdatePositions();
     }
 
 
@@ -314,6 +315,10 @@ var UI = (function (JSTACK) {
         // Restore previous scroll and page
         $(window).scrollTop(scroll);
         dataTable.api().page(page).draw(false);
+
+        // Adjust columns and headers
+        dataTable.api().columns.adjust();
+        redrawFixedHeaders();
 
         if (autoRefresh) {
             setTimeout(function () {
