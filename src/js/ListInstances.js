@@ -174,11 +174,22 @@ var OpenStackListInstance = (function (JSTACK) {
     function getInstanceList (autoRefresh) {
 
         var regions = Region.getCurrentRegions();
-        var joinRegions = createJoinRegions(regions.length, autoRefresh);
+        if (regions.length === 0) {
+            UI.clearTable();
 
-        regions.forEach(function (region) {
-            JSTACK.Nova.getserverlist(true, null, joinRegions.success.bind(null, region), joinRegions.error.bind(null, region), region);
-        });
+            // Keep the refresh loop in case no regions are selected
+            if (autoRefresh) {
+                setTimeout(function () {
+                    getInstanceList(autoRefresh);
+                }, 4000);
+            }
+        }
+        else {
+            var joinRegions = createJoinRegions(regions.length, autoRefresh);
+            regions.forEach(function (region) {
+                JSTACK.Nova.getserverlist(true, null, joinRegions.success.bind(null, region), joinRegions.error.bind(null, region), region);
+            });
+        }
 
     }
 

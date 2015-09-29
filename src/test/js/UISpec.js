@@ -375,4 +375,8 @@ describe('User Interface', function() {
         
     });
 
+    it("should select Spain2 region when first loading the widget", function () {
+        expect($('input[value=Spain2]').prop('checked')).toEqual(true);
+    });
+
 });

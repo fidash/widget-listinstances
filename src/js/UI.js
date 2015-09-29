@@ -141,6 +141,10 @@ var UI = (function (JSTACK) {
                 })
                 .appendTo(regionSelector);
         });
+
+        // Set default region
+        $("div>input[type=checkbox][value=Spain2]").prop("checked", true);
+        Region.setCurrentRegions(regionSelector);
     }
 
     function toggleRegionSelector () {
@@ -351,7 +355,13 @@ var UI = (function (JSTACK) {
         element.addClass('hide');
     }
 
+    function clearTable () {
+        dataTable.api().clear();
+        dataTable.api().draw();
+    }
+
     return {
+        clearTable: clearTable,
         createTable: createTable,
         updateHiddenColumns: updateHiddenColumns,
         drawInstances: drawInstances,
