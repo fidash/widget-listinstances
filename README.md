@@ -1,5 +1,7 @@
 #List Instances Widget
 
+[![Build Status](https://build.conwet.fi.upm.es/jenkins/view/FI-Dash/job/Widget%20ListInstances/badge/icon)](https://build.conwet.fi.upm.es/jenkins/view/FI-Dash/job/Widget%20ListInstances/)
+
 This project is part of [FIWARE](https://www.fiware.org/). This widget is part of FI-Dash component included in FIWARE.
 
 The widget displays a list of instances available to the user in FIWARE's Cloud. The widget also has multi-region support and allows the creation of new instances.
@@ -10,7 +12,7 @@ The widget displays a list of instances available to the user in FIWARE's Cloud.
 The List Instances widget has the following wiring endpoints:
 
 |Label|Name|Friendcode|Type|Description|
-|:--:|:--:|:--:|:--:|:--:|
+|:--:|:--:|:--:|:--:|:--|
 |Image ID|image_id|image_id|text|Sends image ID and OpenStack access.|
 |Instance ID|instance_id|instance_id|text|Sends instance ID and OpenStack access.|
 
@@ -20,7 +22,7 @@ The List Instances widget has the following wiring endpoints:
 List Instances has the following preferences:
 
 |Label|Name|Type|Default|Description|
-|:--:|:--:|:--:|:--:|:--:|
+|:--:|:--:|:--:|:--:|:--|
 |Task|task|boolean|true|Activate to display the task column|
 |Power State|power_state|boolean|true|Activate to display the power state column|
 |VM State|vm_state|boolean|false|Activate to display the vm state column|
