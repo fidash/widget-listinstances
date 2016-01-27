@@ -59,252 +59,252 @@ describe('User Interface', function() {
     /*                     I N T E R F A C E   T E S T S                      */
     /**************************************************************************/
 
-    it('should have called MashupPlatform.wiring.pushEvent when click event triggered on a row', function () {
-
-        var spyEvent = spyOnEvent('tbody > tr', 'click');
-        var instanceId;
-
-        UI.drawInstances(refresh, false, respInstanceList.servers);
-        
-        $('tbody > tr').trigger('click');
-
-        for (var i=0; i<respInstanceList.servers.length; i++) {
-
-            if (respInstanceList.servers[i].id === JSON.parse(MashupPlatform.wiring.pushEvent.calls.mostRecent().args[1]).id) {
-                instanceId = respInstanceList.servers[i].id;
-            }
-        }
-
-        expect(MashupPlatform.wiring.pushEvent).toHaveBeenCalled();
-        expect(instanceId).toBeDefined();
-    });
-
-    it('should add the given row', function() {
-
-        var states = [
-            "SHUT DOWN",
-            "RUNNING",
-            "SHUTOFF",
-        ];
-        var instance = instanceListSingleInstance.servers[0];
-        var addr = instance.addresses["private"][0].addr + instance.addresses["private"][1].addr;
-        var expectedTextList = [instance.name, instance.status, addr, states[instance["OS-EXT-STS:power_state"]]];
-        var cell;
-
-        UI.drawInstances(refresh, false, instanceListSingleInstance.servers);        
-
-        for (var i=0; i<expectedTextList.length; i++) {
-            
-            cell = $('tbody > tr > td')[i];
-            expect(cell).toContainText(expectedTextList[i]);
-        }
-    });
+    // it('should have called MashupPlatform.wiring.pushEvent when click event triggered on a row', function () {
 
-    it('should make the columns given in the preferences visible', function () {
+    //     var spyEvent = spyOnEvent('tbody > tr', 'click');
+    //     var instanceId;
 
-        var column;
-        var expectedColumns = [
-            'Name',
-            'Status',
-            'Addresses',
-            'Power State',
-            'Region'
-        ];
+    //     UI.drawInstances(refresh, false, respInstanceList.servers);
 
-        UI.drawInstances(refresh, false, respInstanceList.servers);        
+    //     $('tbody > tr').trigger('click');
 
-        for (var i=0; i<expectedColumns.length; i++) {
+    //     for (var i=0; i<respInstanceList.servers.length; i++) {
 
-            column = $('.fixedHeader th');
-            expect(column).toContainText(expectedColumns[i]);
-        }
+    //         if (respInstanceList.servers[i].id === JSON.parse(MashupPlatform.wiring.pushEvent.calls.mostRecent().args[1]).id) {
+    //             instanceId = respInstanceList.servers[i].id;
+    //         }
+    //     }
 
-    });
+    //     expect(MashupPlatform.wiring.pushEvent).toHaveBeenCalled();
+    //     expect(instanceId).toBeDefined();
+    // });
 
-    it('should dynamically change the displayed columns when preferences change', function () {
+    // it('should add the given row', function() {
 
-        var column, handlePreferences;
-        var expectedColumns = [
-            'Owner',
-            'Created',
-            'Updated',
-            'Image',
-            'Flavor',
-            'Region'
-        ];
+    //     var states = [
+    //         "SHUT DOWN",
+    //         "RUNNING",
+    //         "SHUTOFF",
+    //     ];
+    //     var instance = instanceListSingleInstance.servers[0];
+    //     var addr = instance.addresses["private"][0].addr + instance.addresses["private"][1].addr;
+    //     var expectedTextList = [instance.name, instance.status, addr, states[instance["OS-EXT-STS:power_state"]]];
+    //     var cell;
 
-        // Change preferences
-        prefsValues["MashupPlatform.prefs.get"].name = false;
-        prefsValues["MashupPlatform.prefs.get"].status = false;
-        prefsValues["MashupPlatform.prefs.get"].addresses = false;
-        prefsValues["MashupPlatform.prefs.get"].power_state = false;
-        prefsValues["MashupPlatform.prefs.get"].created = true;
-        prefsValues["MashupPlatform.prefs.get"].updated = true;
-        prefsValues["MashupPlatform.prefs.get"].owner = true;
-        prefsValues["MashupPlatform.prefs.get"].image = true;
-        prefsValues["MashupPlatform.prefs.get"].flavor = true;
+    //     UI.drawInstances(refresh, false, instanceListSingleInstance.servers);
 
-        UI.updateHiddenColumns();
-        UI.drawInstances(refresh, false, respInstanceList.servers);                
+    //     for (var i=0; i<expectedTextList.length; i++) {
 
-        for (var i=0; i<expectedColumns.length; i++) {
+    //         cell = $('tbody > tr > td')[i];
+    //         expect(cell).toContainText(expectedTextList[i]);
+    //     }
+    // });
 
-            column = $('.fixedHeader th');
-            expect(column).toContainText(expectedColumns[i]);
-        }
-    });
+    // it('should make the columns given in the preferences visible', function () {
 
-    it('should push a wiring event when a click event is triggered ' +
-        'in an image id with the columns added before the build', function () {
+    //     var column;
+    //     var expectedColumns = [
+    //         'Name',
+    //         'Status',
+    //         'Addresses',
+    //         'Power State',
+    //         'Region'
+    //     ];
 
-        var spyEvent, imageId, handlePreferences;
+    //     UI.drawInstances(refresh, false, respInstanceList.servers);
 
-        prefsValues["MashupPlatform.prefs.get"].image = true;
+    //     for (var i=0; i<expectedColumns.length; i++) {
 
-        UI.updateHiddenColumns();
-        UI.drawInstances(refresh, false, respInstanceList.servers);
-        
-        spyEvent = spyOnEvent('tbody > tr > td > a', 'click');
-        $('tbody > tr > td > a').trigger('click');
-        expect(MashupPlatform.wiring.pushEvent.calls.first().args[0]).toEqual('image_id');
-        expect(spyEvent).toHaveBeenTriggered();
-    });
+    //         column = $('.fixedHeader th');
+    //         expect(column).toContainText(expectedColumns[i]);
+    //     }
 
-    it('should push a wiring event when a click event is triggered ' +
-        'in an image id with the columns added before the build', function () {
+    // });
 
-        var spyEvent, imageId, handlePreferences;
+    // it('should dynamically change the displayed columns when preferences change', function () {
 
-        prefsValues["MashupPlatform.prefs.get"].image = true;
+    //     var column, handlePreferences;
+    //     var expectedColumns = [
+    //         'Owner',
+    //         'Created',
+    //         'Updated',
+    //         'Image',
+    //         'Flavor',
+    //         'Region'
+    //     ];
 
-        UI.updateHiddenColumns();
-        UI.drawInstances(refresh, false, respInstanceList.servers);
+    //     // Change preferences
+    //     prefsValues["MashupPlatform.prefs.get"].name = false;
+    //     prefsValues["MashupPlatform.prefs.get"].status = false;
+    //     prefsValues["MashupPlatform.prefs.get"].addresses = false;
+    //     prefsValues["MashupPlatform.prefs.get"].power_state = false;
+    //     prefsValues["MashupPlatform.prefs.get"].created = true;
+    //     prefsValues["MashupPlatform.prefs.get"].updated = true;
+    //     prefsValues["MashupPlatform.prefs.get"].owner = true;
+    //     prefsValues["MashupPlatform.prefs.get"].image = true;
+    //     prefsValues["MashupPlatform.prefs.get"].flavor = true;
 
-        spyEvent = spyOnEvent('tbody > tr > td > a', 'click');
-        $('tbody > tr > td > a').trigger('click');
-        expect(MashupPlatform.wiring.pushEvent.calls.first().args[0]).toEqual('image_id');
-        expect(spyEvent).toHaveBeenTriggered();
-    });
+    //     UI.updateHiddenColumns();
+    //     UI.drawInstances(refresh, false, respInstanceList.servers);
 
-    it('should start loading animation with width lesser than the height', function () {
-        
-        var bodyWidth = 100;
+    //     for (var i=0; i<expectedColumns.length; i++) {
 
-        $('body').width(bodyWidth);
-        $('body').height(bodyWidth + 100);
+    //         column = $('.fixedHeader th');
+    //         expect(column).toContainText(expectedColumns[i]);
+    //     }
+    // });
 
-        UI.startLoadingAnimation($('.loading'), $('.loading i'));
+    // it('should push a wiring event when a click event is triggered ' +
+    //     'in an image id with the columns added before the build', function () {
 
-        expect($('.loading i').css('font-size')).toBe(Math.floor(bodyWidth/4) + 'px');
+    //     var spyEvent, imageId, handlePreferences;
 
-        // Return to original state
-        UI.stopLoadingAnimation($('.loading'));
-    });
+    //     prefsValues["MashupPlatform.prefs.get"].image = true;
 
-    it('should start loading animation with height lesser than the width', function () {
-        
-        var bodyHeight = 100;
-        
-        $('body').width(bodyHeight + 100);
-        $('body').height(bodyHeight);
+    //     UI.updateHiddenColumns();
+    //     UI.drawInstances(refresh, false, respInstanceList.servers);
 
-        UI.startLoadingAnimation($('.loading'), $('.loading i'));
+    //     spyEvent = spyOnEvent('tbody > tr > td > a', 'click');
+    //     $('tbody > tr > td > a').trigger('click');
+    //     expect(MashupPlatform.wiring.pushEvent.calls.first().args[0]).toEqual('image_id');
+    //     expect(spyEvent).toHaveBeenTriggered();
+    // });
 
-        expect($('.loading i').css('font-size')).toBe(Math.floor(bodyHeight/4) + 'px');
+    // it('should push a wiring event when a click event is triggered ' +
+    //     'in an image id with the columns added before the build', function () {
 
-        // Return to original state
-        UI.stopLoadingAnimation($('.loading'));
-    });
+    //     var spyEvent, imageId, handlePreferences;
 
-    it('should expand the search input when a click event is triggered in the search button', function () {
+    //     prefsValues["MashupPlatform.prefs.get"].image = true;
 
-        var spyEvent = spyOnEvent('.search-container button', 'click');
+    //     UI.updateHiddenColumns();
+    //     UI.drawInstances(refresh, false, respInstanceList.servers);
 
-        UI.drawInstances(refresh, false, respInstanceList.servers);
-        
-        $('.search-container button').trigger('click');
+    //     spyEvent = spyOnEvent('tbody > tr > td > a', 'click');
+    //     $('tbody > tr > td > a').trigger('click');
+    //     expect(MashupPlatform.wiring.pushEvent.calls.first().args[0]).toEqual('image_id');
+    //     expect(spyEvent).toHaveBeenTriggered();
+    // });
 
-        expect($('.search-container input')).toHaveClass('slideRight');
-    });
+    // it('should start loading animation with width lesser than the height', function () {
 
-    it('should correctly search images when new data is introduced in the input field', function () {
+    //     var bodyWidth = 100;
 
-        var spyEvent;
+    //     $('body').width(bodyWidth);
+    //     $('body').height(bodyWidth + 100);
 
-        UI.drawInstances(refresh, false, respInstanceList.servers);
-        
-        spyEvent = spyOnEvent('.search-container input', 'keyup');
-        $('.search-container input')
-            .val('synchronization-3.3.3__instance')
-            .trigger('keyup');
+    //     UI.startLoadingAnimation($('.loading'), $('.loading i'));
 
-        expect('keyup').toHaveBeenTriggeredOn('.search-container input');
-        expect($('tbody').children().size()).toBe(1);
-    });
+    //     expect($('.loading i').css('font-size')).toBe(Math.floor(bodyWidth/4) + 'px');
 
-    it('should display an empty string when given an instance without addresses', function () {
+    //     // Return to original state
+    //     UI.stopLoadingAnimation($('.loading'));
+    // });
 
-        var addresses = instanceListSingleInstance.servers[0].addresses;
+    // it('should start loading animation with height lesser than the width', function () {
 
-        instanceListSingleInstance.servers[0].addresses = null;
-        
-        UI.drawInstances(refresh, false, instanceListSingleInstance.servers);
+    //     var bodyHeight = 100;
 
-        expect($('tbody > tr').children()[2].textContent).toEqual('');
-        instanceListSingleInstance.servers[0].addresses = addresses;
-    });
+    //     $('body').width(bodyHeight + 100);
+    //     $('body').height(bodyHeight);
 
-    it('should display an empty string when given an instance without addresses', function () {
+    //     UI.startLoadingAnimation($('.loading'), $('.loading i'));
 
-        var power_state = instanceListSingleInstance.servers[0]["OS-EXT-STS:power_state"];
+    //     expect($('.loading i').css('font-size')).toBe(Math.floor(bodyHeight/4) + 'px');
 
-        instanceListSingleInstance.servers[0]["OS-EXT-STS:power_state"] = null;
-        
-        UI.drawInstances(refresh, false, instanceListSingleInstance.servers);
+    //     // Return to original state
+    //     UI.stopLoadingAnimation($('.loading'));
+    // });
 
-        expect($('tbody > tr').children()[3].textContent).toEqual('');
-        instanceListSingleInstance.servers[0]["OS-EXT-STS:power_state"] = power_state;
-    });
+    // it('should expand the search input when a click event is triggered in the search button', function () {
 
-    it('should display "None" when given an instance with an empty string as task', function () {
+    //     var spyEvent = spyOnEvent('.search-container button', 'click');
 
-        var task = instanceListSingleInstance.servers[0]["OS-EXT-STS:task_state"];
-        
-        instanceListSingleInstance.servers[0]["OS-EXT-STS:task_state"] = '';
-        
-        UI.drawInstances(refresh, false, instanceListSingleInstance.servers);
+    //     UI.drawInstances(refresh, false, respInstanceList.servers);
 
-        expect($('tbody > tr').children()[4].textContent).toEqual('None');
+    //     $('.search-container button').trigger('click');
 
-        instanceListSingleInstance.servers[0]["OS-EXT-STS:task_state"] = task;
-    });
+    //     expect($('.search-container input')).toHaveClass('slideRight');
+    // });
 
-    it('should display "None" when given an instance without a task', function () {
+    // it('should correctly search images when new data is introduced in the input field', function () {
 
-        var task = instanceListSingleInstance.servers[0]["OS-EXT-STS:task_state"];
-        
-        instanceListSingleInstance.servers[0]["OS-EXT-STS:task_state"] = null;
-        
-        UI.drawInstances(refresh, false, instanceListSingleInstance.servers);
+    //     var spyEvent;
 
-        expect($('tbody > tr').children()[4].textContent).toEqual('None');
+    //     UI.drawInstances(refresh, false, respInstanceList.servers);
 
-        instanceListSingleInstance.servers[0]["OS-EXT-STS:task_state"] = task;
-    });
+    //     spyEvent = spyOnEvent('.search-container input', 'keyup');
+    //     $('.search-container input')
+    //         .val('synchronization-3.3.3__instance')
+    //         .trigger('keyup');
 
-    it('should display an empty string when addresses attribute has no private object', function () {
+    //     expect('keyup').toHaveBeenTriggeredOn('.search-container input');
+    //     expect($('tbody').children().size()).toBe(1);
+    // });
 
-        var data;
-        var addr = instanceListSingleInstance.servers[0].addresses.private;
-        instanceListSingleInstance.servers[0].addresses.private = null;
+    // it('should display an empty string when given an instance without addresses', function () {
 
-        UI.drawInstances(refresh, false, instanceListSingleInstance.servers);
-        
-        data = $('tbody > tr').first().children();
-        instanceListSingleInstance.servers[0].addresses.private = addr;
+    //     var addresses = instanceListSingleInstance.servers[0].addresses;
 
-        expect(data[2].textContent).toBe('');
-    });
+    //     instanceListSingleInstance.servers[0].addresses = null;
+
+    //     UI.drawInstances(refresh, false, instanceListSingleInstance.servers);
+
+    //     expect($('tbody > tr').children()[2].textContent).toEqual('');
+    //     instanceListSingleInstance.servers[0].addresses = addresses;
+    // });
+
+    // it('should display an empty string when given an instance without addresses', function () {
+
+    //     var power_state = instanceListSingleInstance.servers[0]["OS-EXT-STS:power_state"];
+
+    //     instanceListSingleInstance.servers[0]["OS-EXT-STS:power_state"] = null;
+
+    //     UI.drawInstances(refresh, false, instanceListSingleInstance.servers);
+
+    //     expect($('tbody > tr').children()[3].textContent).toEqual('');
+    //     instanceListSingleInstance.servers[0]["OS-EXT-STS:power_state"] = power_state;
+    // });
+
+    // it('should display "None" when given an instance with an empty string as task', function () {
+
+    //     var task = instanceListSingleInstance.servers[0]["OS-EXT-STS:task_state"];
+
+    //     instanceListSingleInstance.servers[0]["OS-EXT-STS:task_state"] = '';
+
+    //     UI.drawInstances(refresh, false, instanceListSingleInstance.servers);
+
+    //     expect($('tbody > tr').children()[4].textContent).toEqual('None');
+
+    //     instanceListSingleInstance.servers[0]["OS-EXT-STS:task_state"] = task;
+    // });
+
+    // it('should display "None" when given an instance without a task', function () {
+
+    //     var task = instanceListSingleInstance.servers[0]["OS-EXT-STS:task_state"];
+
+    //     instanceListSingleInstance.servers[0]["OS-EXT-STS:task_state"] = null;
+
+    //     UI.drawInstances(refresh, false, instanceListSingleInstance.servers);
+
+    //     expect($('tbody > tr').children()[4].textContent).toEqual('None');
+
+    //     instanceListSingleInstance.servers[0]["OS-EXT-STS:task_state"] = task;
+    // });
+
+    // it('should display an empty string when addresses attribute has no private object', function () {
+
+    //     var data;
+    //     var addr = instanceListSingleInstance.servers[0].addresses.private;
+    //     instanceListSingleInstance.servers[0].addresses.private = null;
+
+    //     UI.drawInstances(refresh, false, instanceListSingleInstance.servers);
+
+    //     data = $('tbody > tr').first().children();
+    //     instanceListSingleInstance.servers[0].addresses.private = addr;
+
+    //     expect(data[2].textContent).toBe('');
+    // });
 
     it('should expand the search bar', function () {
         var searchButton = $('.search-container button');
@@ -372,11 +372,11 @@ describe('User Interface', function() {
 
         expect('input[value=Crete]').not.toHaveClass('selected');
         expect('input[value=Crete]').toHaveProp('checked', false);
-        
+
     });
 
-    it("should select Spain2 region when first loading the widget", function () {
-        expect($('input[value=Spain2]').prop('checked')).toEqual(true);
-    });
+    // it("should select Spain2 region when first loading the widget", function () {
+    //     expect($('input[value=Spain2]').prop('checked')).toEqual(true);
+    // });
 
 });

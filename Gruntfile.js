@@ -1,4 +1,4 @@
-/* 
+/*
  * @copyright 2014 CoNWeT Lab., Universidad Politécnica de Madrid
  * @license Apache v2 (http://www.apache.org/licenses/)
  */
@@ -41,11 +41,12 @@ module.exports = function(grunt) {
           {expand: true, src: ['bootstrap.min.js'], dest: 'build/wgt/lib/js', cwd: 'node_modules/bootstrap/dist/js'},
           {expand: true, src: ['*'], dest: 'build/wgt/lib/fonts', cwd: 'node_modules/bootstrap/dist/fonts'},
           {expand: true, src: ['css/jquery.dataTables.min.css', 'js/jquery.dataTables.min.js', 'images/*'], dest: 'build/wgt/lib', cwd: 'node_modules/datatables/media'},
-          {expand: true, src: ['css/font-awesome.min.css', 'fonts/*'], dest: 'build/wgt/lib', cwd: 'node_modules/font-awesome'}
+            {expand: true, src: ['css/font-awesome.min.css', 'fonts/*'], dest: 'build/wgt/lib', cwd: 'node_modules/font-awesome'},
+            {expand: true, src: ['polyfill.min.js'], dest: 'build/wgt/lib/js', cwd: 'node_modules/babel-polyfill/dist'}
         ]
       }
     },
-    
+
     karma: {
       headless: {
         configFile: 'karma.conf.js',

@@ -1,4 +1,4 @@
-/* global Utils,UI,Region */
+/* global Utils,UI,Region,OStackAuth */
 
 var OpenStackListInstance = (function (JSTACK) {
     "use strict";
@@ -30,7 +30,7 @@ var OpenStackListInstance = (function (JSTACK) {
     /******************************************************************/
 
     function createWidgetUI (tokenResponse) {
-        
+
         var token = tokenResponse.getHeader('x-subject-token');
         var responseBody = JSON.parse(tokenResponse.responseText);
 
@@ -58,7 +58,7 @@ var OpenStackListInstance = (function (JSTACK) {
 
 
         if (error.message in ERRORS) {
-            Utils.createAlert('danger', 'Error', ERRORS[error.message], error);            
+            Utils.createAlert('danger', 'Error', ERRORS[error.message], error);
         }
         else {
             Utils.createAlert('danger', error.message, error.body);
@@ -136,39 +136,35 @@ var OpenStackListInstance = (function (JSTACK) {
     }
 
     function authenticate () {
-        
-        var headersAuth = {
-            "X-FI-WARE-OAuth-Token": "true",
-            "X-FI-WARE-OAuth-Token-Body-Pattern": "%fiware_token%",
-            "Accept": "application/json"
-        };
-
-        var authBody = {
-            "auth": {
-                "identity": {
-                    "methods": [
-                        "oauth2"
-                    ],
-                    "oauth2": {
-                        "access_token_id": "%fiware_token%"
-                    }
-                }
-            }
-        };
-
         JSTACK.Keystone.init(authURL);
         UI.startLoadingAnimation($('.loading'), $('.loading i'));
 
-        // Get token with user's FIWARE token
-        MashupPlatform.http.makeRequest(authURL + 'tokens', {
-            method: 'POST',
-            requestHeaders: headersAuth,
-            contentType: "application/json",
-            postBody: JSON.stringify(authBody),
-            onSuccess: createWidgetUI,
-            onFailure: authError
-        });
-        
+        OStackAuth.getTokenAndParams(OStackAuth.CLOUD_URL)
+            .then(function (params) {
+                var token = params.token;
+                var response = params.response;
+                var responseBody = JSON.parse(response.responseText);
+                // Temporal change to fix catalog name
+                responseBody.token.serviceCatalog = responseBody.token.catalog;
+
+                // Mimic JSTACK.Keystone.authenticate behavior on success
+                JSTACK.Keystone.params.token = token;
+                JSTACK.Keystone.params.access = responseBody.token;
+                JSTACK.Keystone.params.currentstate = 2;
+
+                UI.stopLoadingAnimation($('.loading'));
+                UI.createTable(getInstanceList);
+                getInstanceList(true);
+            })
+            .catch(function(error) {
+                authError({
+                    error: {
+                        code: error.status,
+                        title: "Error",
+                        message: error.statusText
+                    }
+                });
+            });
     }
 
     function getInstanceList (autoRefresh) {

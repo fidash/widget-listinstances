@@ -1,7 +1,7 @@
 {
   "name": "ListInstances",
   "homepage": "https://github.com/fidash/widget-listinstances",
-  "version": "0.6.0",
+  "version": "0.6.3",
   "vendor": "UPM-ETSIINF",
   "author": "CoNWeT Lab., Universidad Politecnica de Madrid",
   "description": "A widget showing a list of current instances available for a user of an openstack instance.",
@@ -26,12 +26,14 @@
     "url": "http://www.apache.org/licenses/"
   },
   "dependencies": {
+    "babel-polyfill": "^6.3.14",
     "bootstrap": "^3.3.2",
     "datatables": "^1.10.5",
     "font-awesome": "^4.3.0",
     "jquery": "^2.1.4"
   },
   "devDependencies": {
+    "babel-preset-es2015": "^6.3.13",
     "grunt": "^0.4.5",
     "grunt-contrib-clean": "^0.6.0",
     "grunt-contrib-compress": "^0.11.0",
@@ -48,6 +50,7 @@
     "jasmine-core": "^2.3.2",
     "jasmine-jquery": "^2.0.5",
     "karma": "^0.12.31",
+    "karma-babel-preprocessor": "^6.0.1",
     "karma-chrome-launcher": "^0.1.8",
     "karma-coverage": "^0.3.1",
     "karma-firefox-launcher": "^0.1.4",
