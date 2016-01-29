@@ -31,6 +31,7 @@
   <wiring>
     <outputendpoint name="instance_id" type="text" label="Instance ID" description="Sends instance ID and OpenStack access." friendcode="instance_id"/>
     <outputendpoint name="image_id" type="text" label="Image ID" description="Sends image ID and OpenStack access." friendcode="image_id"/>
+    <inputendpoint name="regions" type="text" label="Regions" description="Receive regions selected" friendcode="regions"/>
   </wiring>
   <contents src="index.html" useplatformstyle="true"/>
   <rendering height="25" width="9"/>

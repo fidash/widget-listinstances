@@ -74,7 +74,7 @@ var UI = (function (JSTACK) {
 
         searchButton.on('click', function () {
             focusState = !focusState;
-            
+
             searchInput.toggleClass('slideRight');
             searchButton.parent()
                 .css('z-index', 20);
@@ -108,6 +108,12 @@ var UI = (function (JSTACK) {
             .addClass('btn btn-primary action-button pull-left')
             .click(toggleRegionSelector)
             .insertBefore(nextElement);
+    }
+
+    function joinArrays(a, b) {
+        return a.filter(function(i) {
+            return b.indexOf(i) >= 0;
+        });
     }
 
     function createRegionSelector () {
@@ -215,7 +221,7 @@ var UI = (function (JSTACK) {
             var id = data[0];
             var region = data[data.length - 1];
             UI.selectedRowId = id;
-            
+
             dataTable.api().row('.selected')
                 .nodes()
                 .to$()
@@ -307,7 +313,7 @@ var UI = (function (JSTACK) {
     }
 
     function drawInstances (getInstanceList, autoRefresh, instanceList) {
-        
+
         // Save previous scroll and page
         var scroll = $(window).scrollTop();
         var page = dataTable.api().page();
@@ -360,12 +366,36 @@ var UI = (function (JSTACK) {
         dataTable.api().draw();
     }
 
+    function toggleManyRegions (regions) {
+        var otherregions = Region.getAvailableRegions();
+        var joinregions = joinArrays(regions, otherregions);
+        var i, region, input;
+
+        // First set everything to false
+        for(i=0;  i<otherregions.length; i++) {
+            region = otherregions[i];
+            input = $("input[value=" + region + "]");
+            input.removeClass('selected');
+            input.prop("checked", false);
+        }
+
+        // Then check only the received
+        for (i=0; i<joinregions.length; i++) {
+            region = joinregions[i];
+            input = $("input[value=" + region + "]");
+            input.toggleClass('selected');
+            input.prop("checked", !input.prop("checked"));
+        }
+        Region.setCurrentRegions($("#region-selector"));
+    }
+
     return {
         clearTable: clearTable,
         createTable: createTable,
         updateHiddenColumns: updateHiddenColumns,
         drawInstances: drawInstances,
         startLoadingAnimation: startLoadingAnimation,
-        stopLoadingAnimation: stopLoadingAnimation
+        stopLoadingAnimation: stopLoadingAnimation,
+        toggleManyRegions: toggleManyRegions
     };
 })(JSTACK);
