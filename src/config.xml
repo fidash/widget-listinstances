@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<widget xmlns="http://wirecloud.conwet.fi.upm.es/ns/macdescription/1" vendor="UPM-ETSIINF" name="listinstances-widget" version="0.6.3">
+<widget xmlns="http://wirecloud.conwet.fi.upm.es/ns/macdescription/1" vendor="UPM-ETSIINF" name="listinstances-widget" version="0.6.4">
   <details>
     <title>List Instances</title>
     <email>bgrana@conwet.com</email>
@@ -32,6 +32,7 @@
     <outputendpoint name="instance_id" type="text" label="Instance ID" description="Sends instance ID and OpenStack access." friendcode="instance_id"/>
     <outputendpoint name="image_id" type="text" label="Image ID" description="Sends image ID and OpenStack access." friendcode="image_id"/>
     <inputendpoint name="regions" type="text" label="Regions" description="Receive regions selected" friendcode="regions"/>
+    <inputendpoint name="authentication" type="text" label="Authentication" description="Receive the authentication data via wiring" friendcode="openstack-auth"/>
   </wiring>
   <contents src="index.html" useplatformstyle="true"/>
   <rendering height="25" width="9"/>

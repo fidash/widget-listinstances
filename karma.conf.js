@@ -11,7 +11,6 @@
       files: [
         // PhantomJS polyfill
         'node_modules/phantomjs-polyfill/bind-polyfill.js',
-          'node_modules/babel-polyfill/dist/polyfill.min.js',
         // Vendor files
         'src/test/vendor/*.js',
         'node_modules/jquery/dist/jquery.js',
@@ -19,7 +18,6 @@
         'node_modules/bootstrap/dist/js/bootstrap.min.js',
         'src/lib/js/dataTables.fixedHeader.js',
         'node_modules/jasmine-jquery/lib/jasmine-jquery.js',
-          'src/lib/js/OStackAuth.js',
         // Helper files
         'src/test/helpers/*.js',
 
@@ -45,27 +43,12 @@
       ],
 
       preprocessors: {
-          'src/js/**/*.js': ['coverage'],
-          'src/lib/js/OStackAuth.js': ['babel']
+          'src/js/**/*.js': ['coverage']
       },
 
       exclude: [
         'src/js/main.js'
       ],
-
-        babelPreprocessor: {
-            options: {
-                presets: ['es2015'],
-                sourceMap: 'inline'
-            },
-            filename: function (file) {
-                return file.originalPath.replace(/\.js$/, '.es5.js');
-            },
-            sourceFileName: function (file) {
-                return file.originalPath;
-            }
-        },
-
 
         // plugins: [
       //   'karma-jasmine',
