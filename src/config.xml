@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<widget xmlns="http://wirecloud.conwet.fi.upm.es/ns/macdescription/1" vendor="UPM-ETSIINF" name="listinstances-widget" version="0.6.4">
+<widget xmlns="http://wirecloud.conwet.fi.upm.es/ns/macdescription/1" vendor="UPM-ETSIINF" name="listinstances-widget" version="0.6.7">
   <details>
     <title>List Instances</title>
-    <email>bgrana@conwet.com</email>
+    <email>bgrana@conwet.com; mgarcia@conwet.com</email>
     <image>images/catalogue.png</image>
     <smartphoneimage>images/catalogueSmartphone.png</smartphoneimage>
     <description>FIDASH widget that shows a table with openStack instances data</description>
-    <authors>bgrana</authors>
+    <authors>bgrana; mgarcia</authors>
   </details>
   <requirements>
     <feature name="StyledElements" />
@@ -27,6 +27,22 @@
     <preference name="vm_state" type="boolean" description="Activate to display the vm state column" label="VM State" default="false" />
     <preference name="power_state" type="boolean" description="Activate to display the power state column" label="Power State" default="true" />
     <preference name="task" type="boolean" description="Activate to display the task column" label="Task" default="true" />
+
+    <preference name="mintime" type="list" description="Minimum time to update the data" label="Minimum Time" default="2" >
+      <option label="1" value="1"/>
+      <option label="2" value="2"/>
+      <option label="3" value="3"/>
+      <option label="5" value="5"/>
+      <option label="7" value="7"/>
+    </preference>
+    <preference name="maxtime" type="list" description="Maximum time to update the data" label="Maximum Time" default="30" >
+      <option label="10" value="10"/>
+      <option label="20" value="20"/>
+      <option label="30" value="30"/>
+      <option label="50" value="50"/>
+      <option label="70" value="70"/>
+    </preference>
+
   </preferences>
   <wiring>
     <outputendpoint name="instance_id" type="text" label="Instance ID" description="Sends instance ID and OpenStack access." friendcode="instance_id"/>

@@ -94,7 +94,6 @@ var UI = (function (JSTACK) {
     }
 
     function createRefreshButton (nextElement, refreshCallback) {
-
         var refresh = $('<button>')
             .html('<i class="fa fa-refresh"></i>')
             .addClass('btn btn-default action-button pull-left')
@@ -116,7 +115,7 @@ var UI = (function (JSTACK) {
         });
     }
 
-    function createRegionSelector () {
+    function createRegionSelector (refreshCallback) {
         var regions = Region.getAvailableRegions();
         var regionSelector = $('<div>')
                 .attr('id', 'region-selector')
@@ -144,6 +143,7 @@ var UI = (function (JSTACK) {
                         input.prop('checked', true);
                         Region.setCurrentRegions(regionSelector);
                     }
+                    refreshCallback();
                 })
                 .appendTo(regionSelector);
         });
@@ -151,6 +151,7 @@ var UI = (function (JSTACK) {
         // Set default region
         $("div>input[type=checkbox][value=Spain2]").prop("checked", true);
         Region.setCurrentRegions(regionSelector);
+        refreshCallback();
     }
 
     function toggleRegionSelector () {
@@ -257,7 +258,7 @@ var UI = (function (JSTACK) {
         // Pagination style
         $('#instances_table_paginate').addClass('pagination pull-right');
 
-        createRegionSelector();
+        createRegionSelector(refreshCallback);
         createRegionsButton($('#instances_table_paginate'));
         createSearchField($('#instances_table_paginate'));
         createRefreshButton($('#instances_table_paginate'), refreshCallback);
@@ -330,12 +331,11 @@ var UI = (function (JSTACK) {
         dataTable.api().columns.adjust();
         redrawFixedHeaders();
 
-        if (autoRefresh) {
-            setTimeout(function () {
-                getInstanceList(true);
-            }, 4000);
-        }
-
+        // if (autoRefresh) {
+        //     setTimeout(function () {
+        //         getInstanceList(true);
+        //     }, this.mintime);
+        // }
     }
 
     function startLoadingAnimation () {

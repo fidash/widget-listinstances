@@ -20,7 +20,9 @@ var OpenStackListInstance = (function (JSTACK) {
 
         this.init = init;
         this.authenticate = authenticate;
-        this.listInstance = getInstanceList;
+        this.listInstance = getInstanceList.bind(this);
+        this.mintime = 2000;
+        this.maxtime = 30000;
 
     }
 
@@ -30,7 +32,7 @@ var OpenStackListInstance = (function (JSTACK) {
     /******************************************************************/
 
     function createWidgetUI (tokenResponse) {
-
+        /* jshint validthis: true */
         var token = tokenResponse.getHeader('x-subject-token');
         var responseBody = JSON.parse(tokenResponse.responseText);
 
@@ -43,12 +45,15 @@ var OpenStackListInstance = (function (JSTACK) {
         JSTACK.Keystone.params.currentstate = 2;
 
         UI.stopLoadingAnimation($('.loading'));
-        UI.createTable(getInstanceList);
-        getInstanceList(true);
+        UI.createTable(getInstanceList.bind(this));
+        getInstanceList.call(this, true);
 
     }
 
     function handlePreferences () {
+        /* jshint validthis: true */
+        this.mintime = MashupPlatform.prefs.get("mintime") * 1000;
+        this.maxtime = MashupPlatform.prefs.get("maxtime") * 1000;
 
         UI.updateHiddenColumns();
 
@@ -74,17 +79,17 @@ var OpenStackListInstance = (function (JSTACK) {
     // }
 
     function createJoinRegions (regionsLimit, autoRefresh) {
+        /* jshint validthis: true */
 
         var currentInstanceList = [];
         var errorList = [];
 
         function deductRegionLimit () {
-
             regionsLimit -= 1;
 
             if (regionsLimit === 0) {
 
-                UI.drawInstances(getInstanceList, autoRefresh, currentInstanceList);
+                UI.drawInstances(getInstanceList.bind(this), autoRefresh, currentInstanceList);
                 drawErrors();
             }
         }
@@ -104,7 +109,7 @@ var OpenStackListInstance = (function (JSTACK) {
                 currentInstanceList.push(instance);
             });
 
-            deductRegionLimit();
+            deductRegionLimit.call(this);
         }
 
         function joinRegionsErrors (region, error) {
@@ -112,12 +117,12 @@ var OpenStackListInstance = (function (JSTACK) {
             error.region = region;
             errorList.push(error);
 
-            deductRegionLimit();
+            deductRegionLimit.call(this);
         }
 
         return {
-            success: joinRegionsSuccess,
-            error: joinRegionsErrors
+            success: joinRegionsSuccess.bind(this),
+            error: joinRegionsErrors.bind(this)
         };
     }
 
@@ -127,15 +132,17 @@ var OpenStackListInstance = (function (JSTACK) {
     /******************************************************************/
 
     function init () {
+        /* jshint validthis: true */
 
         // Initialize preferences
-        handlePreferences();
+        handlePreferences.call(this);
 
         // Preferences handler
-        MashupPlatform.prefs.registerCallback(handlePreferences);
+        MashupPlatform.prefs.registerCallback(handlePreferences.bind(this));
         MashupPlatform.wiring.registerCallback("regions", function(regionsraw) {
             UI.toggleManyRegions(JSON.parse(regionsraw));
-        });
+            getInstanceList.call(this);
+        }.bind(this));
     }
 
     function authenticate () {
@@ -161,32 +168,37 @@ var OpenStackListInstance = (function (JSTACK) {
             this.token = token;
             this.body = responseBody;
             UI.stopLoadingAnimation($('.loading'));
-            UI.createTable(getInstanceList);
-            getInstanceList(true);
+            UI.createTable(getInstanceList.bind(this));
+            getInstanceList.call(this, true);
         }.bind(this));
     }
 
     function getInstanceList (autoRefresh) {
+        /* jshint validthis: true */
 
         var regions = Region.getCurrentRegions();
         if (regions.length === 0) {
             UI.clearTable();
 
             // Keep the refresh loop in case no regions are selected
-            if (autoRefresh) {
-                setTimeout(function () {
-                    getInstanceList(autoRefresh);
-                }, 4000);
-            }
+            // if (autoRefresh) {
+            //     setTimeout(function () {
+            //         getInstanceList.call(this, autoRefresh);
+            //     }.bind(this), this.maxtime);
+            // }
         }
         else {
-            var joinRegions = createJoinRegions(regions.length, autoRefresh);
+            var joinRegions = createJoinRegions.call(this, regions.length, autoRefresh);
             regions.forEach(function (region) {
                 JSTACK.Nova.getserverlist(true, null, joinRegions.success.bind(null, region), joinRegions.error.bind(null, region), region);
             });
         }
 
+        if (autoRefresh) {
+            setTimeout(function () {
+                getInstanceList.call(this, autoRefresh);
+            }.bind(this), this.maxtime);
+        }
     }
-
     return OpenStackListInstance;
 })(JSTACK);
