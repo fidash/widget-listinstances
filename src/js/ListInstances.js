@@ -110,6 +110,7 @@ var OpenStackListInstance = (function (JSTACK) {
             });
 
             deductRegionLimit.call(this);
+            UI.deactivateProgressBar();
         }
 
         function joinRegionsErrors (region, error) {
@@ -118,6 +119,7 @@ var OpenStackListInstance = (function (JSTACK) {
             errorList.push(error);
 
             deductRegionLimit.call(this);
+            UI.deactivateProgressBar();
         }
 
         return {
@@ -175,7 +177,7 @@ var OpenStackListInstance = (function (JSTACK) {
 
     function getInstanceList (autoRefresh) {
         /* jshint validthis: true */
-
+        UI.activateProgressBar();
         var regions = Region.getCurrentRegions();
         if (regions.length === 0) {
             UI.clearTable();
