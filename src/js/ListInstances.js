@@ -192,7 +192,7 @@ var OpenStackListInstance = (function (JSTACK) {
         else {
             var joinRegions = createJoinRegions.call(this, regions.length, autoRefresh);
             regions.forEach(function (region) {
-                JSTACK.Nova.getserverlist(true, null, joinRegions.success.bind(null, region), joinRegions.error.bind(null, region), region);
+                JSTACK.Nova.getserverlist(true, null, joinRegions.success.bind(this, region), joinRegions.error.bind(this, region), region);
             });
         }
 
