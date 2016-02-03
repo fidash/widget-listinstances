@@ -13,6 +13,7 @@ The List Instances widget has the following wiring endpoints:
 
 |Label|Name|Friendcode|Type|Description|
 |:--:|:--:|:--:|:--:|:--|
+|Authentication|authentication|openstack-auth|text|Receive the authentication data via wiring.|
 |Image ID|image_id|image_id|text|Sends image ID and OpenStack access.|
 |Instance ID|instance_id|instance_id|text|Sends instance ID and OpenStack access.|
 
