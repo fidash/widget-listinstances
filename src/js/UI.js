@@ -192,25 +192,27 @@ var UI = (function (JSTACK) {
             displayableAddresses = instance.addresses ? Utils.getDisplayableAddresses(instance.addresses) : '';
             displayablePowerState = instance['OS-EXT-STS:power_state'] ? Utils.getDisplayablePowerState(instance["OS-EXT-STS:power_state"]) : '';
             displayableTask = (instance["OS-EXT-STS:task_state"] && instance["OS-EXT-STS:task_state"] !== '') ? instance["OS-EXT-STS:task_state"] : "None";
+            var diskConfig = instance["OS-DCF:diskConfig"] || "No disk cfg";
+            var vmState = instance["OS-EXT-STS:vm_state"] || "No state";
 
             imageId = '<a style="text-overflow: ellipsis;">' + instance.image.id + '</a>';
             row = dataTable.api().row.add([
-                instance.id,
-                instance.name,
-                instance.tenant_id,
-                instance.status,
+                instance.id || 0,
+                instance.name || "",
+                instance.tenant_id || "",
+                instance.status || "",
                 displayableAddresses,
-                instance.user_id,
-                instance.created,
-                instance.updated,
+                instance.user_id || "",
+                instance.created || "",
+                instance.updated || "",
                 imageId,
-                instance.key_name,
-                instance.flavor,
-                instance["OS-DCF:diskConfig"],
-                instance["OS-EXT-STS:vm_state"],
+                instance.key_name || "",
+                instance.flavor || "",
+                diskConfig,
+                vmState,
                 displayablePowerState,
                 displayableTask,
-                instance.region
+                instance.region || ""
             ])
             .draw()
             .nodes()
