@@ -25,22 +25,22 @@ var UI = (function (JSTACK) {
     function initDataTable () {
 
         var columns = [
-            {'title': 'ID'},
-            {'title': 'Name'},
-            {'title': 'Tenant'},
-            {'title': 'Status'},
-            {'title': 'Addresses'},
-            {'title': 'Owner'},
-            {'title': 'Created'},
-            {'title': 'Updated'},
-            {'title': 'Image'},
-            {'title': 'Key Pair'},
-            {'title': 'Flavor'},
-            {'title': 'Disk Config'},
-            {'title': 'VM State'},
-            {'title': 'Power State'},
-            {'title': 'Task'},
-            {'title': 'Region'}
+            { title: "ID", defaultContent: "" },
+            { title: "Name", defaultContent: "" },
+            { title: "Tenant", defaultContent: "" },
+            { title: "Status", defaultContent: "" },
+            { title: "Addresses", defaultContent: "" },
+            { title: "Owner", defaultContent: "" },
+            { title: "Created", defaultContent: "" },
+            { title: "Updated", defaultContent: "" },
+            { title: "Image", defaultContent: "" },
+            { title: "Key Pair", defaultContent: "" },
+            { title: "Flavor", defaultContent: "" },
+            { title: "Disk Config", defaultContent: "" },
+            { title: "VM State", defaultContent: "" },
+            { title: "Power State", defaultContent: "" },
+            { title: "Task", defaultContent: "" },
+            { title: "Region", defaultContent: "" }
         ];
 
         dataTable = $('#instances_table').dataTable({
