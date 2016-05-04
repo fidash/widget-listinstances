@@ -1,3 +1,5 @@
+/*global MashupPlatform */
+
 /* global Utils,Region */
 
 var UI = (function (JSTACK) {
@@ -10,12 +12,12 @@ var UI = (function (JSTACK) {
     /*                P R I V A T E   F U N C T I O N S               */
     /******************************************************************/
 
-    function selectInstance (id, region) {
+    function selectInstance(id, region) {
         var data = {
-            'id': id,
-            'access': JSTACK.Keystone.params.access,
-            'token': JSTACK.Keystone.params.token,
-            'region': region
+            id: id,
+            access: JSTACK.Keystone.params.access,
+            token: JSTACK.Keystone.params.token,
+            region: region
         };
         MashupPlatform.wiring.pushEvent('instance_id', JSON.stringify(data));
     }
